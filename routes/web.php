@@ -15,12 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('dashboard');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'loginView'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.process');
-    Route::resource('users', UserController::class);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('dashboard');
+    Route::resource('users', UserController::class)->except('show');
 });

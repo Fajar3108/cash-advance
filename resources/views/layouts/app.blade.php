@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
     @yield('content')
 
     @vite('resources/js/app.js')
