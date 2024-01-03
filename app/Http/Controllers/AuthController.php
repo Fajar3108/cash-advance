@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -35,14 +37,8 @@ class AuthController extends Controller
         return view('auth.profile');
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
-        $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
-            'signature' => ['nullable', 'image', 'max:2048'],
-        ]);
-
         $data = $request->only(['name', 'email']);
 
         if ($request->hasFile('signature')) {
@@ -55,5 +51,30 @@ class AuthController extends Controller
         Alert::success('Success', 'Profile updated successfully');
 
         return redirect()->route('profile')->with('success', 'Profile updated successfully');
+    }
+
+    public function changePasswordView()
+    {
+        return view('auth.change-password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        if (!Hash::check($request->current_password, auth()->user()->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        }
+
+        auth()->user()->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        Alert::success('Success', 'Password changed successfully');
+
+        return redirect()->route('change-password')->with('success', 'Password changed successfully');
     }
 }

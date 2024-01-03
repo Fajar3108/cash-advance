@@ -27,6 +27,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::patch('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/change-password', [AuthController::class, 'changePasswordView'])->name('change-password');
+    Route::patch('/change-password', [AuthController::class, 'changePassword'])->name('change-password.update');
+
     Route::get('/', function () {
         return redirect()->route('cash-advances.index');
     })->name('dashboard');
