@@ -179,8 +179,8 @@
             </td>
         </tr>
         <tr>
-            <td>IT Administrasi</td>
-            <td>IT Manager</td>
+            <td>{{ $cashAdvance->user->department }}</td>
+            <td>{{ $cashAdvance->admin->department }}</td>
             <td>Direktur</td>
         </tr>
     </table>

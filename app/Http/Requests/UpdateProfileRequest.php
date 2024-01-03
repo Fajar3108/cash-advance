@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -23,8 +24,9 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user()->id)],
             'signature' => ['nullable', 'image', 'max:2048'],
+            'department' => ['required', 'string'],
         ];
     }
 }

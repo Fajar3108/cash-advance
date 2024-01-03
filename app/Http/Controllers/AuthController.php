@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     public function updateProfile(UpdateProfileRequest $request)
     {
-        $data = $request->only(['name', 'email']);
+        $data = $request->only(['name', 'email', 'department']);
 
         if ($request->hasFile('signature')) {
             Storage::disk('public')->delete(auth()->user()->signature);

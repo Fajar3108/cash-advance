@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -23,10 +24,11 @@ class UserRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $this->id,
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user)],
             'password' => 'required|string|min:8',
             'role' => 'required|exists:roles,id',
             'signature' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'department' => 'required|string',
         ];
 
         if ($this->method() === 'PUT') {
