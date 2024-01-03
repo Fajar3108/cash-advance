@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthController extends Controller
 {
@@ -26,5 +28,32 @@ class AuthController extends Controller
     {
         auth()->logout();
         return redirect()->route('login');
+    }
+
+    public function profile()
+    {
+        return view('auth.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'signature' => ['nullable', 'image', 'max:2048'],
+        ]);
+
+        $data = $request->only(['name', 'email']);
+
+        if ($request->hasFile('signature')) {
+            Storage::disk('public')->delete(auth()->user()->signature);
+            $data['signature'] = $request->file('signature')->store('signatures', ['disk' => 'public']);
+        }
+
+        auth()->user()->update($data);
+
+        Alert::success('Success', 'Profile updated successfully');
+
+        return redirect()->route('profile')->with('success', 'Profile updated successfully');
     }
 }
