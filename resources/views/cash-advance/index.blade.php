@@ -157,8 +157,7 @@
                     @endif
                 </td>
                 <td class="px-6 py-4">
-                    <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
-                        class="flex items-start gap-1">
+                    <div class="flex items-start gap-1">
                         <a href="{{ route('cash-advances.show', $cashAdvance->id) }}" type="button"
                             class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
                             <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -170,6 +169,7 @@
                                 </g>
                             </svg>
                         </a>
+                        @if (!$cashAdvance->is_approved)
                         <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
                             <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -179,18 +179,26 @@
                                     d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
                             </svg>
                         </a>
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit"
-                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
-                            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 18 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
-                            </svg>
-                        </button>
-                    </form>
+                        @endif
+                        @if (
+                        !$cashAdvance->is_approved
+                        || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
+                        )
+                        <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit"
+                                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
+                                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 18 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                </svg>
+                            </button>
+                        </form>
+                        @endif
+                    </div>
                 </td>
             </tr>
             @endforeach

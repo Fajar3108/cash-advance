@@ -11,6 +11,11 @@ class ItemController extends Controller
 {
     public function create(CashAdvance $cashAdvance)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
+
         return view('item.create', compact('cashAdvance'));
     }
 
@@ -23,11 +28,19 @@ class ItemController extends Controller
 
     public function edit(CashAdvance $cashAdvance, Item $item)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
         return view('item.edit', compact('cashAdvance', 'item'));
     }
 
     public function update(ItemRequest $request, CashAdvance $cashAdvance, Item $item)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
         $item->update($request->validated());
         Alert::success('Success', 'Item updated successfully');
         return redirect()->route('cash-advances.edit', $cashAdvance);
@@ -35,6 +48,11 @@ class ItemController extends Controller
 
     public function destroy(CashAdvance $cashAdvance, Item $item)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
+
         if ($cashAdvance->is_approved) {
             Alert::error('Error', 'You cannot delete item from approved cash advance');
             return back();

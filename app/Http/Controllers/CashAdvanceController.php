@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CashAdvanceRequest;
 use App\Models\CashAdvance;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -71,13 +72,23 @@ class CashAdvanceController extends Controller
         return view('cash-advance.show', compact('cashAdvance'));
     }
 
-    public function edit(CashAdvance $cashAdvance): View
+    public function edit(CashAdvance $cashAdvance)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
+
         return view('cash-advance.edit', compact('cashAdvance'));
     }
 
     public function update(CashAdvanceRequest $request, CashAdvance $cashAdvance)
     {
+        if ($cashAdvance->is_approved) {
+            Alert::error('Error', 'You cannot edit approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
+
         $data = $request->validated();
 
         if ($request->is_user_signature_showed) {
@@ -95,6 +106,11 @@ class CashAdvanceController extends Controller
 
     public function destroy(CashAdvance $cashAdvance): RedirectResponse
     {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
+            Alert::error('Error', 'You cannot delete approved cash advance');
+            return redirect()->route('cash-advances.index');
+        }
+
         DB::transaction(function () use ($cashAdvance) {
             $cashAdvance->items()->delete();
             $cashAdvance->delete();
