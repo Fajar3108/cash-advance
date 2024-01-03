@@ -63,9 +63,9 @@ const renderItems = () => {
         numberData.className = 'px-6 py-4';
         numberData.innerText = index + 1;
 
-        const nameData = document.createElement('th');
-        nameData.className = 'px-6 py-4';
-        nameData.innerText = item.name;
+        const noteData = document.createElement('th');
+        noteData.className = 'px-6 py-4';
+        noteData.innerText = item.note;
 
         const quantityData = document.createElement('td');
         quantityData.className = 'px-6 py-4';
@@ -91,7 +91,7 @@ const renderItems = () => {
         actionData.appendChild(removeButton);
 
         row.appendChild(numberData);
-        row.appendChild(nameData);
+        row.appendChild(noteData);
         row.appendChild(quantityData);
         row.appendChild(priceData);
         row.appendChild(totalData);
