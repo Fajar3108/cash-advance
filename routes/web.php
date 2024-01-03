@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
     Route::resource('cash-advances', CashAdvanceController::class);
     Route::resource('cash-advances/{cashAdvance}/items', ItemController::class)->except('show');
+    Route::get('/cash-advances/{cashAdvance}/pdf', [CashAdvanceController::class, 'pdf'])->name('cash-advances.pdf');
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');

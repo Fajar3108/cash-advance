@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CashAdvanceRequest;
 use App\Models\CashAdvance;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -138,5 +139,11 @@ class CashAdvanceController extends Controller
         Alert::success('Success', 'CA approved successfully');
 
         return redirect()->route('cash-advances.index');
+    }
+
+    public function pdf(CashAdvance $cashAdvance)
+    {
+        $pdf = Pdf::loadView('cash-advance.pdf', compact('cashAdvance'));
+        return $pdf->download('cash-advance.pdf');
     }
 }
