@@ -14,7 +14,13 @@ class CashAdvanceController extends Controller
 {
     public function index(): View
     {
-        $cashAdvances = CashAdvance::with('user', 'admin')->latest()->paginate(10);
+        $cashAdvances = CashAdvance::with('user', 'admin')->latest();
+
+        if (request()->has('q')) {
+            $cashAdvances = $cashAdvances->where('name', 'like', '%' . request('q') . '%');
+        }
+
+        $cashAdvances = $cashAdvances->paginate(10);
 
         return view('cash-advance.index', compact('cashAdvances'));
     }

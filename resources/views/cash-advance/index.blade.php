@@ -38,7 +38,7 @@
         <div class="text-sm text-gray-500">
             Hasil pencarian untuk "{{ request()->query('q') }}"
         </div>
-        <a href="{{ route('users.index') }}"
+        <a href="{{ route('cash-advances.index') }}"
             class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">Clear
             Search</a>
     </div>
@@ -204,5 +204,31 @@
             @endforeach
         </tbody>
     </table>
+    @if ($cashAdvances->hasPages())
+    <nav class="flex items-center justify-between mt-4">
+        <div class="text-gray-500">
+            Showing {{ $cashAdvances->firstItem() }} to {{ $cashAdvances->lastItem() }} of {{ $cashAdvances->total() }}
+            results
+        </div>
+        <div class="flex -space-x-1">
+            @if ($cashAdvances->currentPage() > 1)
+            <a href="{{ $cashAdvances->previousPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Previous</a>
+            @endif
+            @php
+            $totalPages = $cashAdvances->lastPage() >= 10 ? 10 : $cashAdvances->lastPage();
+            @endphp
+            @for ($i = 1; $i <= $totalPages; $i++) @if ($i==$cashAdvances->currentPage())
+                <span class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md">{{ $i }}</span>
+                @else
+                <a href="{{ $cashAdvances->appends(['q' => request()->query('q'), 'other' => request()->query('other')])->url($i) }}"
+                    class="px-4 py-2 rounded-md hover:bg-gray-100">{{ $i }}</a>
+                @endif
+                @endfor
+                @if ($cashAdvances->currentPage() < $cashAdvances->lastPage())
+                    <a href="{{ $cashAdvances->nextPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Next</a>
+                    @endif
+        </div>
+    </nav>
+    @endif
 </div>
 @endsection
