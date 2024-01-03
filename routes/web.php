@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CashAdvanceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,12 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
-        return view('welcome');
+        return redirect()->route('cash-advances.index');
     })->name('dashboard');
-    Route::resource('users', UserController::class)->except('show');
+    Route::resource('cash-advances', CashAdvanceController::class);
+
+    Route::middleware(['admin'])->group(function () {
+        Route::resource('users', UserController::class)->except('show');
+        Route::patch('/cash-advances/{cashAdvance}/approve', [CashAdvanceController::class, 'approve'])->name('cash-advances.approve');
+    });
 });

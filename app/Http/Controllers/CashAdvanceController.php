@@ -2,10 +2,119 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Http\Request;
+use App\Http\Requests\CashAdvanceRequest;
+use App\Models\CashAdvance;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CashAdvanceController extends Controller
 {
+    public function index(): View
+    {
+        $cashAdvances = CashAdvance::with('user', 'admin')->latest()->paginate(10);
 
+        return view('cash-advance.index', compact('cashAdvances'));
+    }
+
+    public function create(): View
+    {
+        return view('cash-advance.create', [
+            'cashAdvance' => new CashAdvance(),
+        ]);
+    }
+
+    public function store(CashAdvanceRequest $request)
+    {
+        if (empty($request->items)) {
+            Alert::error('Error', 'Please add at least one item');
+            return back()->withInput($request->except('items'));
+        }
+
+        DB::transaction(function () use ($request) {
+            $data = $request->validated();
+            $data['user_id'] = auth()->id();
+
+            if ($request->is_user_signature_showed) {
+                $data['is_user_signature_showed'] = true;
+            } else {
+                $data['is_user_signature_showed'] = false;
+            }
+
+            $cashAdvance = CashAdvance::create($data);
+
+            $items = json_decode($request->items);
+
+            for ($i = 0; $i < count($items); $i++) {
+                $items[$i] = [
+                    'id' => str()->uuid(),
+                    'note' => $items[$i]->note,
+                    'price' => $items[$i]->price,
+                    'quantity' => $items[$i]->quantity,
+                    'cash_advance_id' => $cashAdvance->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            $cashAdvance->items()->insert($items);
+        });
+
+        Alert::success('Success', 'CA created successfully');
+
+        return redirect()->route('cash-advances.index');
+    }
+
+    public function show(CashAdvance $cashAdvance): View
+    {
+        return view('cash-advance.show', compact('cashAdvance'));
+    }
+
+    public function edit(CashAdvance $cashAdvance): View
+    {
+        return view('cash-advance.edit', compact('cashAdvance'));
+    }
+
+    public function update(CashAdvanceRequest $request, CashAdvance $cashAdvance)
+    {
+        $data = $request->validated();
+
+        if ($request->is_user_signature_showed) {
+            $data['is_user_signature_showed'] = true;
+        } else {
+            $data['is_user_signature_showed'] = false;
+        }
+
+        $cashAdvance->update($data);
+
+        Alert::success('Success', 'CA updated successfully');
+
+        return redirect()->route('cash-advances.index');
+    }
+
+    public function destroy(CashAdvance $cashAdvance): RedirectResponse
+    {
+        DB::transaction(function () use ($cashAdvance) {
+            $cashAdvance->items()->delete();
+            $cashAdvance->delete();
+        });
+
+        Alert::success('Success', 'CA deleted successfully');
+
+        return redirect()->route('cash-advances.index');
+    }
+
+    public function approve(CashAdvance $cashAdvance): RedirectResponse
+    {
+        $cashAdvance->update([
+            'is_approved' => true,
+            'admin_id' => auth()->id(),
+            'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
+        ]);
+
+        Alert::success('Success', 'CA approved successfully');
+
+        return redirect()->route('cash-advances.index');
+    }
 }
