@@ -18,7 +18,17 @@
 </form>
 <hr>
 <div class="relative overflow-x-auto px-2 mt-5">
-    <h2 class="text-lg font-bold mb-3">Items</h2>
+    <div class="flex justify-between items-center mb-3">
+        <h2 class="text-lg font-bold mb-3">Items</h2>
+        <a href="{{ route('items.create', $cashAdvance->id) }}"
+            class="focus:outline-none text-blue-600 border border-blue-700 hover:text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm py-2 px-4 flex gap-2 items-center">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 1v16M1 9h16" />
+            </svg>
+            Tambah
+        </a>
+    </div>
     @include('item.partials.table', ['items' => $cashAdvance->items])
     <div class="w-full flex justify-end py-4">
         <p class="font-bold">

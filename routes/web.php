@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashAdvanceController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('cash-advances.index');
     })->name('dashboard');
     Route::resource('cash-advances', CashAdvanceController::class);
+    Route::resource('cash-advances/{cashAdvance}/items', ItemController::class)->except('show');
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
