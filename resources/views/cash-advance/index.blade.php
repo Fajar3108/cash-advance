@@ -194,7 +194,8 @@
                         !$cashAdvance->is_approved
                         || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
                         )
-                        <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST">
+                        <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
+                            data-confirmation="true">
                             @method('DELETE')
                             @csrf
                             <button type="submit"
