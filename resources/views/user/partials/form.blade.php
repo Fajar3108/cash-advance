@@ -22,7 +22,7 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
         @foreach ($roles as $role)
-        <option value="{{ $role->id }}">{{ $role->name }}</option>
+        <option value="{{ $role->id }}" @if ($role->id === $user->role_id) selected @endif>{{ $role->name }}</option>
         @endforeach
     </select>
     @error('role')
@@ -33,7 +33,7 @@
     <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jabatan</label>
     <input type="text" id="department" name="department"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required
-        value="{{ old('department') ?? auth()->user()->department }}">
+        value="{{ old('department') ?? $user->department }}">
     @error('department')
     <small class="text-red-600">{{ $message }}</small>
     @enderror
