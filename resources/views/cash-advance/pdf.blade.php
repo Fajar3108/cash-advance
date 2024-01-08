@@ -25,6 +25,10 @@
             text-align: center;
         }
 
+        .text-right {
+            text-align: right;
+        }
+
         #header {
             text-align: center;
             position: relative;
@@ -129,20 +133,20 @@
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{!! nl2br($item->note) !!}</td>
                 <td class="text-center">{{ $item->quantity }}</td>
-                <td>Rp{{ number_format($item->price) }}</td>
-                <td>Rp{{ number_format($item->quantity * $item->price) }}</td>
+                <td class="text-right">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+                <td class="text-right">Rp {{ number_format($item->quantity * $item->price, 0, ',', '.') }}</td>
             </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
                 <th colspan="4">Total</th>
-                <th>
-                    Rp{{
+                <th class="text-right">
+                    Rp {{
                     number_format(
                     $cashAdvance->items->sum(function($t){
                     return $t->quantity * $t->price;
-                    })
+                    }), 0, ',', '.'
                     );
                     }}
                 </th>
