@@ -32,8 +32,10 @@ class CashAdvanceController extends Controller
 
     public function create(): View
     {
+        $cashAdvance = new CashAdvance();
+        $cashAdvance->date = now()->format('Y-m-d');
         return view('cash-advance.create', [
-            'cashAdvance' => new CashAdvance(),
+            'cashAdvance' => $cashAdvance,
         ]);
     }
 
