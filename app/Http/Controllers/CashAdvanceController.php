@@ -87,7 +87,7 @@ class CashAdvanceController extends Controller
 
     public function edit(CashAdvance $cashAdvance)
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
@@ -97,7 +97,7 @@ class CashAdvanceController extends Controller
 
     public function update(CashAdvanceRequest $request, CashAdvance $cashAdvance)
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
