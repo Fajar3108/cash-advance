@@ -49,13 +49,13 @@
                 <tr>
                     <th scope="col" class="px-6 py-3">No</th>
                     <th scope="col" class="px-6 py-3">
+                        Tanggal
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Nama CA
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Pemohon
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Penyetuju
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Status
@@ -74,15 +74,16 @@
                     <td class="px-6 py-4">
                         {{ $loop->iteration }}
                     </td>
+                    <td class="px-6 py-4">
+                        {{ Carbon\Carbon::parse($cashAdvance->date)->format('d F Y') }}
+                    </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $cashAdvance->name }}
                     </th>
                     <td class="px-6 py-4">
                         {{ $cashAdvance->user->name }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ $cashAdvance->admin->name ?? "-" }}
-                    </td>
+
                     <td class="px-6 py-4">
                         @if (!$cashAdvance->is_approved && auth()->user()->role_id ==
                         Database\Seeders\RoleSeeder::ADMIN_ID)
