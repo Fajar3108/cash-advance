@@ -73,7 +73,7 @@
             number_format(
             $cashAdvance->items->sum(function($t){
             return $t->quantity * $t->price;
-            })
+            }), 0, ',', '.'
             );
             }}
         </p>

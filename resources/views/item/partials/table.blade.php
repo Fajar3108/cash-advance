@@ -35,10 +35,10 @@
                     {{ $item->quantity }}
                 </td>
                 <td class="px-6 py-4">
-                    Rp{{ number_format($item->price) }}
+                    Rp{{ number_format($item->price, 0, ',', '.') }}
                 </td>
                 <td class="px-6 py-4">
-                    Rp{{ number_format($item->quantity * $item->price) }}
+                    Rp{{ number_format($item->quantity * $item->price, 0, ',', '.') }}
                 </td>
                 @if (request()->routeIs('cash-advances.edit'))
                 <td scope="col" class="px-6 py-3">
