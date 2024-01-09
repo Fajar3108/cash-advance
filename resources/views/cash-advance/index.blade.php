@@ -3,7 +3,7 @@
 @section('page_title', 'Pengajuan Dana')
 
 @section('admin_content')
-<div class="relative overflow-x-auto">
+<div class="relative overflow-x-auto pb-10">
     <div class="flex items-center justify-center flex-col md:flex-row gap-2 mb-3">
         <form class="w-full">
             <label for="default-search"
@@ -165,32 +165,26 @@
                         @endif
                     </td>
                     <td class="px-6 py-4">
-                        @if ($cashAdvance->is_approved && $cashAdvance->note)
-                        <div class="flex gap-1 items-center">
-                            <button data-modal-target="note-modal-{{ $cashAdvance->id }}"
-                                data-modal-toggle="note-modal-{{ $cashAdvance->id }}"
-                                class="flex gap-3 items-center text-black font-medium" type="button">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 21 21">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
-                                </svg>
-                            </button>
-                            {{ $cashAdvance->note }}
-                        </div>
-
-                        @elseif ($cashAdvance->is_approved)
+                        @if ($cashAdvance->is_approved)
                         <button data-modal-target="note-modal-{{ $cashAdvance->id }}"
                             data-modal-toggle="note-modal-{{ $cashAdvance->id }}"
                             class="flex gap-3 items-center text-black border border-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center"
                             type="button">
+                            @if ($cashAdvance->note)
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 21 21">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
+                            </svg>
+                            @else
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 20 18">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2"
                                     d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
                             </svg>
+                            @endif
                         </button>
                         @else
                         <svg data-tooltip-target="forbidden-note-{{ $cashAdvance->id }}"
