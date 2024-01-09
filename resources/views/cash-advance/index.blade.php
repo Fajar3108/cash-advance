@@ -161,7 +161,7 @@
                         @elseif (!$cashAdvance->is_approved)
                         <p class="text-yellow-400 font-bold">Pending</p>
                         @else
-                        <p class="text-green-600 font-bold">Accepted</p>
+                        <p class="text-green-600 font-bold">Approved</p>
                         @endif
                     </td>
                     <td class="px-6 py-4">
