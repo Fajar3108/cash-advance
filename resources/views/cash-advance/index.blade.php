@@ -162,58 +162,85 @@
                         @endif
                     </td>
                     <td class="px-6 py-4">
-                        <div class="flex items-start gap-1">
-                            <a href="{{ route('cash-advances.show', $cashAdvance->id) }}" type="button"
-                                class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
-                                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 20 14">
-                                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2">
-                                        <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                        <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
-                                    </g>
-                                </svg>
-                            </a>
-                            @if ($cashAdvance->is_approved)
-                            <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" type="button"
-                                class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
-                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 16 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
-                                </svg>
-                            </a>
-                            @else
-                            <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
-                                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
-                                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 21 21">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
-                                </svg>
-                            </a>
-                            @endif
-                            @if (
-                            !$cashAdvance->is_approved
-                            || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
-                            )
-                            <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
-                                data-confirmation="true">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit"
-                                    class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg cursor-pointer text-sm px-3 py-2">
-                                    <svg class="w-4 h-4 text-white" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
-                                    </svg>
-                                </button>
-                            </form>
-                            @endif
+                        <button data-popover-target="action-{{ $cashAdvance->id }}" data-popover-placement="left"
+                            type="button"
+                            class="text-white mb-3 me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 16 3">
+                                <path
+                                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                            </svg>
+                        </button>
+                        <div data-popover id="action-{{ $cashAdvance->id }}" role="tooltip"
+                            class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                            <div
+                                class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                                <h3 class="font-semibold text-gray-900 dark:text-white">Action</h3>
+                            </div>
+                            <ul class="text-left text-gray-500 dark:text-gray-400">
+                                <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                    <a href="{{ route('cash-advances.show', $cashAdvance->id) }}"
+                                        class="p-3 flex gap-3 items-center">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 20 14">
+                                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2">
+                                                <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                <path
+                                                    d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
+                                            </g>
+                                        </svg>
+                                        Detail CA
+                                    </a>
+                                </li>
+                                <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                    @if ($cashAdvance->is_approved)
+                                    <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" type="button"
+                                        class="p-3 flex gap-3 items-center">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 16 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
+                                        </svg>
+                                        Print PDF
+                                    </a>
+                                    @else
+                                    <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
+                                        class="p-3 flex gap-3 items-center">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 21 21">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
+                                        </svg>
+                                        Edit
+                                    </a>
+                                    @endif
+                                </li>
+                                <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                    @if (
+                                    !$cashAdvance->is_approved
+                                    || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
+                                    )
+                                    <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
+                                        data-confirmation="true">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="p-3 flex gap-3 items-center w-full text-red-600">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 18 20">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </form>
+                                    @endif
+                                </li>
+                            </ul>
+                            <div data-popper-arrow></div>
                         </div>
                     </td>
                 </tr>
