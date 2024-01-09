@@ -161,8 +161,16 @@
             <td>Menyetujui,</td>
         </tr>
         <tr>
-            <td><img src="{{ public_path('storage/' . $cashAdvance->user->signature) }}" /></td>
-            <td><img src="{{ public_path('storage/' . $cashAdvance->admin->signature) }}" /></td>
+            <td>
+                @if ($cashAdvance->is_user_signature_showed)
+                <img src="{{ public_path('storage/' . $cashAdvance->user->signature) }}" />
+                @endif
+            </td>
+            <td>
+                @if ($cashAdvance->is_admin_signature_showed)
+                <img src="{{ public_path('storage/' . $cashAdvance->admin->signature) }}" />
+                @endif
+            </td>
             <td></td>
         </tr>
         <tr>
