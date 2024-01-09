@@ -113,6 +113,7 @@
     <div id="header">
         <img src="{{ public_path('images/logo_hma.png') }}" />
         <h1 id="header-title">Pengajuan Dana</h1>
+        <p>{{ str_pad($cashAdvance->no, 3, '0', STR_PAD_LEFT) }}/CA/IT/{{ $cashAdvance->created_at->format('Y') }}</p>
         <p id="header-company">PT. Hanatekindo Mulia Abadi</p>
     </div>
     <p id="header-date">Tgl:<time>{{ Illuminate\Support\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}</time></p>
