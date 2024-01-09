@@ -152,4 +152,22 @@ class CashAdvanceController extends Controller
         $pdf = Pdf::loadView('cash-advance.pdf', compact('cashAdvance'));
         return $pdf->download('cash-advance.pdf');
     }
+
+    public function note(CashAdvance $cashAdvance): RedirectResponse
+    {
+        $note = request()->note;
+
+        if (empty($note)) {
+            Alert::error('Error', 'Note cannot be empty');
+            return back();
+        }
+
+        $cashAdvance->update([
+            'note' => $note,
+        ]);
+
+        Alert::success('Success', 'Note updated successfully');
+
+        return back();
+    }
 }

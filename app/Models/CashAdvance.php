@@ -20,6 +20,7 @@ class CashAdvance extends Model
         'admin_id',
         'is_user_signature_showed',
         'is_admin_signature_showed',
+        'note',
     ];
 
     public function items(): HasMany
