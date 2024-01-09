@@ -75,7 +75,7 @@
                         {{ $loop->iteration }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ Carbon\Carbon::parse($cashAdvance->date)->format('d F Y') }}
+                        {{ Carbon\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $cashAdvance->name }}
