@@ -21,6 +21,10 @@ class CashAdvanceController extends Controller
             $cashAdvances = $cashAdvances->where('name', 'like', '%' . request('q') . '%');
         }
 
+        if (auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
+            $cashAdvances = $cashAdvances->where('user_id', auth()->id());
+        }
+
         $cashAdvances = $cashAdvances->paginate(10);
 
         return view('cash-advance.index', compact('cashAdvances'));
