@@ -50,6 +50,10 @@
             font-size: 20px;
         }
 
+        #header-number {
+            margin-top: -10px;
+        }
+
         #header-date time {
             margin-left: 20px;
             margin-bottom: 10px;
@@ -113,11 +117,12 @@
     <div id="header">
         <img src="{{ public_path('images/logo_hma.png') }}" />
         <h1 id="header-title">Pengajuan Dana</h1>
-        <p>No. {{ str_pad($cashAdvance->no, 3, '0', STR_PAD_LEFT) }}/CA/IT/{{ $cashAdvance->created_at->format('Y') }}
+        <p id="header-number">No. {{ str_pad($cashAdvance->no, 3, '0', STR_PAD_LEFT) }}/CA/IT/{{
+            $cashAdvance->created_at->format('Y') }}
         </p>
-        <p id="header-company">PT. Hanatekindo Mulia Abadi</p>
     </div>
-    <p id="header-date">Tgl:<time>{{ Illuminate\Support\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}</time></p>
+    <p id="header-date">Tgl:<time>{{ Illuminate\Support\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}</time> -
+        {{ $cashAdvance->name }}</p>
 
     <table id="items-table">
         <thead>
