@@ -36,4 +36,9 @@ class CashAdvance extends Model
     {
         return $this->belongsTo(User::class, 'admin_id');
     }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(Attachment::class);
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashAdvanceController;
 use App\Http\Controllers\ItemController;
@@ -36,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('cash-advances', CashAdvanceController::class);
     Route::resource('cash-advances/{cashAdvance}/items', ItemController::class)->except('show');
     Route::get('/cash-advances/{cashAdvance}/pdf', [CashAdvanceController::class, 'pdf'])->name('cash-advances.pdf');
+    Route::resource('cash-advance/{cashAdvance}/attachments', AttachmentController::class)->only('index', 'store');
+    Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');

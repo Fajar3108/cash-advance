@@ -43,7 +43,7 @@
             Search</a>
     </div>
     @endif
-    <div class="relative overflow-x-auto">
+    <div class="overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -191,6 +191,18 @@
                                             </g>
                                         </svg>
                                         Detail CA
+                                    </a>
+                                </li>
+                                <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                    <a href="{{ route('attachments.index', $cashAdvance->id) }}"
+                                        class="p-3 flex gap-3 items-center">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M10 18a.969.969 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V9l4-4m-4 5h5m3-4h5V1m5 1v12a.97.97 0 0 1-.933 1H9.933A.97.97 0 0 1 9 14V5l4-4h5.067A.97.97 0 0 1 19 2Z" />
+                                        </svg>
+                                        Lampiran
                                     </a>
                                 </li>
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
