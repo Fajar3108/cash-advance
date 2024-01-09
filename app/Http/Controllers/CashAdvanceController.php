@@ -15,7 +15,7 @@ class CashAdvanceController extends Controller
 {
     public function index(): View
     {
-        $cashAdvances = CashAdvance::with('user', 'admin')->latest();
+        $cashAdvances = CashAdvance::with('user', 'admin')->orderBy('date', 'DESC');
 
         if (request()->has('q')) {
             $cashAdvances = $cashAdvances->where('name', 'like', '%' . request('q') . '%');
