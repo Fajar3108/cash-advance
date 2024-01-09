@@ -35,12 +35,12 @@
     </div>
     @if (request()->query('q'))
     <div class="flex items-center justify-between mb-3">
-        <div class="text-sm text-gray-500">
+        <div class="text-sm">
             Hasil pencarian untuk "{{ request()->query('q') }}"
+            <a href="{{ route('cash-advances.index') }}" class="text-sm text-blue-400">
+                [ Clear Search ]
+            </a>
         </div>
-        <a href="{{ route('cash-advances.index') }}"
-            class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">Clear
-            Search</a>
     </div>
     @endif
     <div class="overflow-x-auto">
