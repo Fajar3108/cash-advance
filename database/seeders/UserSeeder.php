@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     {
         $signatureImage = public_path('images/sample-signature.png');
         $storagePath = storage_path('app/public/signatures/sample-signature.png');
+        File::makeDirectory(storage_path('app/public/signatures'), $mode = 0777, true, true);
         File::copy($signatureImage, $storagePath);
         User::create([
             'id' => 'c56bd349-86f9-4941-9a3e-e568fae81a51',
