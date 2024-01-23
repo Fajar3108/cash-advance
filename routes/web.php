@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashAdvanceController;
+use App\Http\Controllers\CaUsageAttachmentController;
 use App\Http\Controllers\CaUsageController;
 use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
@@ -48,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ca-usages/{caUsage}/ca-usage-items', CaUsageItemController::class)->except('show');
     Route::get('/ca-usages/{caUsage}/pdf', [CaUsageController::class, 'pdf'])->name('ca-usages.pdf');
     Route::patch('/ca-usages/{caUsage}/note', [CaUsageController::class, 'note'])->name('ca-usages.note');
+
+    Route::resource('ca-usages/{caUsage}/ca-usage-attachments', CaUsageAttachmentController::class)->only('index', 'store');
+    Route::delete('/ca-usage-attachments/{caUsageAttachment}', [CaUsageAttachmentController::class, 'destroy'])->name('ca-usage-attachments.destroy');
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');

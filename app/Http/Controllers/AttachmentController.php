@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AttachmentRequest;
 use App\Models\Attachment;
 use App\Models\CashAdvance;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,7 @@ class AttachmentController extends Controller
 
     public function store(CashAdvance $cashAdvance, AttachmentRequest $request): RedirectResponse
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
@@ -40,7 +41,7 @@ class AttachmentController extends Controller
 
     public function destroy(Attachment $attachment): RedirectResponse
     {
-        if ($attachment->cashAdvance->is_approved) {
+        if ($attachment->cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }

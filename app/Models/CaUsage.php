@@ -43,4 +43,9 @@ class CaUsage extends Model
     {
         return $this->hasMany(CaUsageItem::class, 'ca_usage_id');
     }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(CaUsageAttachment::class, 'ca_usage_id');
+    }
 }

@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
-@section('page_title', $cashAdvance->name . ' - Lampiran')
+@section('page_title', $caUsage->name . ' - Lampiran')
 
 @section('admin_content')
-@if (!$cashAdvance->is_approved || auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
+@if (!$caUsage->is_approved || auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
 <button data-modal-target="upload-modal" data-modal-toggle="upload-modal"
     class="flex gap-3 items-center mb-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
     type="button">
@@ -37,7 +37,7 @@
             </div>
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <form class="space-y-4" action="{{ route('attachments.store', $cashAdvance->id) }}" method="POST"
+                <form class="space-y-4" action="{{ route('ca-usage-attachments.store', $caUsage->id) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div>
@@ -66,7 +66,7 @@
         </tr>
     </thead>
     <tbody id="items-container">
-        @foreach ($cashAdvance->attachments as $attachment)
+        @foreach ($caUsage->attachments as $attachment)
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <td class="px-6 py-4">
                 {{ $loop->iteration }}
@@ -86,9 +86,8 @@
                             </g>
                         </svg>
                     </a>
-                    @if (!$cashAdvance->is_approved || auth()->user()->role_id ===
-                    Database\Seeders\RoleSeeder::ADMIN_ID)
-                    <form action="{{ route('attachments.destroy', $attachment->id) }}" method="POST"
+                    @if (!$caUsage->is_approved || auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
+                    <form action="{{ route('ca-usage-attachments.destroy', $attachment->id) }}" method="POST"
                         data-confirmation="true">
                         @csrf
                         @method('DELETE')
