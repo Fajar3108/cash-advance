@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('page_title', 'Pengajuan CA')
+@section('page_title', 'Pemakaian CA')
 
 @section('admin_content')
 <div class="relative overflow-x-auto pb-10">
@@ -23,7 +23,7 @@
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div>
         </form>
-        <a href="{{ route('cash-advances.create') }}"
+        <a href="{{ route('ca-usages.create') }}"
             class="w-full md:w-auto justify-center focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm p-4 flex gap-2 items-center">
             <svg class="w-3 h-3 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 18 18">
@@ -37,7 +37,7 @@
     <div class="flex items-center justify-between mb-3">
         <div class="text-sm">
             Hasil pencarian untuk "{{ request()->query('q') }}"
-            <a href="{{ route('cash-advances.index') }}" class="text-sm text-blue-400">
+            <a href="{{ route('ca-usages.index') }}" class="text-sm text-blue-400">
                 [ Clear Search ]
             </a>
         </div>
@@ -69,26 +69,26 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cashAdvances as $cashAdvance)
+                @foreach ($caUsages as $caUsage)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td class="px-6 py-4">
                         {{ $loop->iteration }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ Carbon\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}
+                        {{ Carbon\Carbon::parse($caUsage->date)->format('d/m/Y') }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $cashAdvance->name }}
+                        {{ $caUsage->name }}
                     </th>
                     <td class="px-6 py-4">
-                        {{ $cashAdvance->user->name }}
+                        {{ $caUsage->user->name }}
                     </td>
 
                     <td class="px-6 py-4">
-                        @if (!$cashAdvance->is_approved && auth()->user()->role_id ==
+                        @if (!$caUsage->is_approved && auth()->user()->role_id ==
                         Database\Seeders\RoleSeeder::ADMIN_ID)
-                        <button data-modal-target="approve-modal-{{ $cashAdvance->id }}"
-                            data-modal-toggle="approve-modal-{{ $cashAdvance->id }}" type="button"
+                        <button data-modal-target="approve-modal-{{ $caUsage->id }}"
+                            data-modal-toggle="approve-modal-{{ $caUsage->id }}" type="button"
                             class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center gap-2">
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 16 12">
@@ -97,13 +97,13 @@
                             </svg>
                             Approve
                         </button>
-                        <div id="approve-modal-{{ $cashAdvance->id }}" tabindex="-1"
+                        <div id="approve-modal-{{ $caUsage->id }}" tabindex="-1"
                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                             <div class="relative p-4 w-full max-w-md max-h-full">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                     <button type="button"
                                         class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                        data-modal-hide="approve-modal-{{ $cashAdvance->id }}">
+                                        data-modal-hide="approve-modal-{{ $caUsage->id }}">
                                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 14 14">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -122,8 +122,7 @@
                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                                             Are you sure?
                                         </h3>
-                                        <form action="{{ route('cash-advances.approve', $cashAdvance->id) }}"
-                                            method="POST">
+                                        <form action="{{ route('ca-usages.approve', $caUsage->id) }}" method="POST">
                                             @method('PATCH')
                                             @csrf
                                             <div class="w-full flex justify-center items-center mb-4">
@@ -149,8 +148,7 @@
                                                     </svg>
                                                     Yes, I'm sure
                                                 </button>
-                                                <button data-modal-hide="approve-modal-{{ $cashAdvance->id }}"
-                                                    type="button"
+                                                <button data-modal-hide="approve-modal-{{ $caUsage->id }}" type="button"
                                                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                                     cancel</button>
                                             </div>
@@ -159,19 +157,19 @@
                                 </div>
                             </div>
                         </div>
-                        @elseif (!$cashAdvance->is_approved)
+                        @elseif (!$caUsage->is_approved)
                         <p class="text-yellow-400 font-bold">Pending</p>
                         @else
                         <p class="text-green-600 font-bold">Approved</p>
                         @endif
                     </td>
                     <td class="px-6 py-4">
-                        @if ($cashAdvance->is_approved)
-                        <button data-modal-target="note-modal-{{ $cashAdvance->id }}"
-                            data-modal-toggle="note-modal-{{ $cashAdvance->id }}"
+                        @if ($caUsage->is_approved)
+                        <button data-modal-target="note-modal-{{ $caUsage->id }}"
+                            data-modal-toggle="note-modal-{{ $caUsage->id }}"
                             class="flex gap-3 items-center text-black border border-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center"
                             type="button">
-                            @if ($cashAdvance->note)
+                            @if ($caUsage->note)
                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 21 21">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -188,19 +186,19 @@
                             @endif
                         </button>
                         @else
-                        <svg data-tooltip-target="forbidden-note-{{ $cashAdvance->id }}"
+                        <svg data-tooltip-target="forbidden-note-{{ $caUsage->id }}"
                             class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
                         </svg>
-                        <div id="forbidden-note-{{ $cashAdvance->id }}" role="tooltip"
+                        <div id="forbidden-note-{{ $caUsage->id }}" role="tooltip"
                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                             Tidak dapat menambahkan keterangan karena belum disetujui
                             <div class="tooltip-arrow" data-popper-arrow></div>
                         </div>
                         @endif
-                        <div id="note-modal-{{ $cashAdvance->id }}" tabindex="-1" aria-hidden="true"
+                        <div id="note-modal-{{ $caUsage->id }}" tabindex="-1" aria-hidden="true"
                             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                             <div class="relative p-4 w-full max-w-2xl max-h-full">
                                 <!-- Modal content -->
@@ -213,7 +211,7 @@
                                         </h3>
                                         <button type="button"
                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                            data-modal-hide="note-modal-{{ $cashAdvance->id }}">
+                                            data-modal-hide="note-modal-{{ $caUsage->id }}">
                                             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 14 14">
                                                 <path stroke="currentColor" stroke-linecap="round"
@@ -225,15 +223,15 @@
                                     </div>
                                     <!-- Modal body -->
                                     <div class="p-4 md:p-5">
-                                        <form class="space-y-4"
-                                            action="{{ route('cash-advances.note', $cashAdvance->id) }}" method="POST">
+                                        <form class="space-y-4" action="{{ route('ca-usages.note', $caUsage->id) }}"
+                                            method="POST">
                                             @method('PATCH')
                                             @csrf
                                             <div>
                                                 <textarea id="note" rows="4" name="note"
                                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
                                                     required
-                                                    placeholder="Tulis keterangan di sini...">{{ $cashAdvance->note }}</textarea>
+                                                    placeholder="Tulis keterangan di sini...">{{ $caUsage->note }}</textarea>
                                             </div>
                                             <button type="submit"
                                                 class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
@@ -244,7 +242,7 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <button data-popover-target="action-{{ $cashAdvance->id }}" data-popover-placement="left"
+                        <button data-popover-target="action-{{ $caUsage->id }}" data-popover-placement="left"
                             type="button"
                             class="text-white me-4 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +251,7 @@
                                     d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                             </svg>
                         </button>
-                        <div data-popover id="action-{{ $cashAdvance->id }}" role="tooltip"
+                        <div data-popover id="action-{{ $caUsage->id }}" role="tooltip"
                             class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                             <div
                                 class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
@@ -261,7 +259,7 @@
                             </div>
                             <ul class="text-left text-gray-500 dark:text-gray-400">
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('cash-advances.show', $cashAdvance->id) }}"
+                                    <a href="{{ route('ca-usages.show', $caUsage->id) }}"
                                         class="p-3 flex gap-3 items-center">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 20 14">
@@ -276,7 +274,7 @@
                                     </a>
                                 </li>
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('attachments.index', $cashAdvance->id) }}"
+                                    <a href="{{ route('attachments.index', $caUsage->id) }}"
                                         class="p-3 flex gap-3 items-center">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 20 20">
@@ -287,10 +285,10 @@
                                         Lampiran
                                     </a>
                                 </li>
-                                @if (!$cashAdvance->is_approved || auth()->user()->role_id ==
+                                @if (!$caUsage->is_approved || auth()->user()->role_id ==
                                 Database\Seeders\RoleSeeder::ADMIN_ID)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
+                                    <a href="{{ route('ca-usages.edit', $caUsage->id) }}" type="button"
                                         class="p-3 flex gap-3 items-center">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 21 21">
@@ -302,9 +300,9 @@
                                     </a>
                                 </li>
                                 @endif
-                                @if ($cashAdvance->is_approved)
+                                @if ($caUsage->is_approved)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" type="button"
+                                    <a href="{{ route('ca-usages.pdf', $caUsage->id) }}" type="button"
                                         class="p-3 flex gap-3 items-center">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 16 20">
@@ -318,10 +316,10 @@
                                 @endif
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     @if (
-                                    !$cashAdvance->is_approved
+                                    !$caUsage->is_approved
                                     || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
                                     )
-                                    <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
+                                    <form action="{{ route('ca-usages.destroy', $caUsage->id) }}" method="POST"
                                         data-confirmation="true">
                                         @method('DELETE')
                                         @csrf
@@ -346,28 +344,28 @@
             </tbody>
         </table>
     </div>
-    @if ($cashAdvances->hasPages())
+    @if ($caUsages->hasPages())
     <nav class="flex items-center justify-between mt-4">
         <div class="text-gray-500">
-            Showing {{ $cashAdvances->firstItem() }} to {{ $cashAdvances->lastItem() }} of {{ $cashAdvances->total() }}
+            Showing {{ $caUsages->firstItem() }} to {{ $caUsages->lastItem() }} of {{ $caUsages->total() }}
             results
         </div>
         <div class="flex -space-x-1">
-            @if ($cashAdvances->currentPage() > 1)
-            <a href="{{ $cashAdvances->previousPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Previous</a>
+            @if ($caUsages->currentPage() > 1)
+            <a href="{{ $caUsages->previousPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Previous</a>
             @endif
             @php
-            $totalPages = $cashAdvances->lastPage() >= 10 ? 10 : $cashAdvances->lastPage();
+            $totalPages = $caUsages->lastPage() >= 10 ? 10 : $caUsages->lastPage();
             @endphp
-            @for ($i = 1; $i <= $totalPages; $i++) @if ($i==$cashAdvances->currentPage())
+            @for ($i = 1; $i <= $totalPages; $i++) @if ($i==$caUsages->currentPage())
                 <span class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md">{{ $i }}</span>
                 @else
-                <a href="{{ $cashAdvances->appends(['q' => request()->query('q'), 'other' => request()->query('other')])->url($i) }}"
+                <a href="{{ $caUsages->appends(['q' => request()->query('q'), 'other' => request()->query('other')])->url($i) }}"
                     class="px-4 py-2 rounded-md hover:bg-gray-100">{{ $i }}</a>
                 @endif
                 @endfor
-                @if ($cashAdvances->currentPage() < $cashAdvances->lastPage())
-                    <a href="{{ $cashAdvances->nextPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Next</a>
+                @if ($caUsages->currentPage() < $caUsages->lastPage())
+                    <a href="{{ $caUsages->nextPageUrl() }}" class="px-4 py-2 rounded-md hover:bg-gray-100">Next</a>
                     @endif
         </div>
     </nav>

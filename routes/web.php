@@ -3,6 +3,8 @@
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CashAdvanceController;
+use App\Http\Controllers\CaUsageController;
+use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -42,8 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('cash-advance/{cashAdvance}/attachments', AttachmentController::class)->only('index', 'store');
     Route::delete('/attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 
+    Route::resource('ca-usages', CaUsageController::class);
+    Route::resource('ca-usages/{caUsage}/ca-usage-items', CaUsageItemController::class)->except('show');
+    Route::get('/ca-usages/{caUsage}/pdf', [CaUsageController::class, 'pdf'])->name('ca-usages.pdf');
+    Route::patch('/ca-usages/{caUsage}/note', [CaUsageController::class, 'note'])->name('ca-usages.note');
+
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
         Route::patch('/cash-advances/{cashAdvance}/approve', [CashAdvanceController::class, 'approve'])->name('cash-advances.approve');
+        Route::patch('/ca-usages/{caUsage}/approve', [CaUsageController::class, 'approve'])->name('ca-usages.approve');
     });
 });

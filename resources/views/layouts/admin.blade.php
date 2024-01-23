@@ -98,7 +98,18 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M5 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1M2 5h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                     </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Pengajuan Dana</span>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Pengajuan CA</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('ca-usages.index') }}"
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 9h2m3 0h5M1 5h18M2 1h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Pemakaian CA</span>
                 </a>
             </li>
             @if (auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)

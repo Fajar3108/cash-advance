@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ItemRequest;
 use App\Models\CashAdvance;
 use App\Models\Item;
+use Database\Seeders\RoleSeeder;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ItemController extends Controller
 {
     public function create(CashAdvance $cashAdvance)
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
@@ -28,7 +29,7 @@ class ItemController extends Controller
 
     public function edit(CashAdvance $cashAdvance, Item $item)
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
@@ -37,7 +38,7 @@ class ItemController extends Controller
 
     public function update(ItemRequest $request, CashAdvance $cashAdvance, Item $item)
     {
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot edit approved cash advance');
             return redirect()->route('cash-advances.index');
         }
@@ -48,12 +49,7 @@ class ItemController extends Controller
 
     public function destroy(CashAdvance $cashAdvance, Item $item)
     {
-        if ($cashAdvance->is_approved) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('cash-advances.index');
-        }
-
-        if ($cashAdvance->is_approved) {
+        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
             Alert::error('Error', 'You cannot delete item from approved cash advance');
             return back();
         }
