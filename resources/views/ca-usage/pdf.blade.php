@@ -116,11 +116,17 @@
 <body>
     <div id="header">
         <img src="{{ public_path('images/logo_hma.png') }}" />
-        <h1 id="header-title">Pengajuan Dana</h1>
-        <p id="header-number">No. {{ str_pad($caUsage->no, 3, '0', STR_PAD_LEFT) }}/CA/IT/{{
+        <h1 id="header-title">Laporan Pemakaian Dana</h1>
+        <p id="header-number">No. {{ str_pad($caUsage->no, 3, '0', STR_PAD_LEFT) }}/PCA/IT/{{
             $caUsage->created_at->format('Y') }}
         </p>
     </div>
+    @if ($caUsage->cashAdvance)
+    <p>
+        Ref No: {{ str_pad($caUsage->cashAdvance->no, 3, '0', STR_PAD_LEFT) }}/CA/IT/{{
+        $caUsage->cashAdvance->created_at->format('Y') }}
+    </p>
+    @endif
     <p id="header-date">Tgl:<time>{{ Illuminate\Support\Carbon::parse($caUsage->date)->format('d/m/Y') }}</time> -
         {{ $caUsage->name }}</p>
 
@@ -128,10 +134,10 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>TGL</th>
                 <th>Keterangan</th>
                 <th>D</th>
                 <th>K</th>
+                <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
