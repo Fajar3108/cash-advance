@@ -3,6 +3,7 @@ $values = [
 'note' => '',
 'quantity' => 0,
 'amount' => 0,
+'type' => 'debit',
 'date' => now()->format('Y-m-d')
 ];
 
@@ -11,6 +12,7 @@ $values = [
 'note' => $item->note,
 'quantity' => $item->quantity,
 'amount' => $item->amount,
+'type' => $item->type,
 'date' => $item->date
 ];
 }
@@ -29,8 +31,8 @@ $values = [
         <div class="w-40">
             <select name="type" id="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                <option value="debit">Debit</option>
-                <option value="credit">Kredit</option>
+                <option value="debit" @if ($values['type']==='debit' ) selected @endif>Debit</option>
+                <option value="credit" @if ($values['type']==='credit' ) selected @endif>Kredit</option>
             </select>
         </div>
         <div class="w-full">

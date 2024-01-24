@@ -29,7 +29,7 @@
             Tambah
         </a>
     </div>
-    @include('ca-usage-item.partials.table', ['items' => $caUsage->items])
+    @include('ca-usage-item.partials.table', ['items' => $caUsage->items()->orderBy('date', 'asc')->get()])
 </div>
 @endsection
 

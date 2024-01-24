@@ -66,6 +66,6 @@
 
 <div class="relative overflow-x-auto px-2 mt-5">
     <h2 class="text-lg font-bold mb-3">Items</h2>
-    @include('ca-usage-item.partials.table', ['items' => $caUsage->items])
+    @include('ca-usage-item.partials.table', ['items' => $caUsage->items()->orderBy('date', 'asc')->get()])
 </div>
 @endsection

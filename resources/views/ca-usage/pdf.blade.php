@@ -141,7 +141,27 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($caUsage->items as $item)
+            @php
+            $items = $caUsage->items->sortBy('date');
+            @endphp
+            @foreach ($items->where('type', 'credit') as $item)
+            <tr>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td>{{ $item->date }}</td>
+                <td>{!! nl2br($item->note) !!}</td>
+                <td class="text-right">
+                    @if ($item->type == 'debit')
+                    Rp{{ number_format($item->amount, 0, ',', '.') }}
+                    @endif
+                </td>
+                <td class="text-right">
+                    @if ($item->type == 'credit')
+                    Rp{{ number_format($item->amount, 0, ',', '.') }}
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+            @foreach ($items->where('type', 'debit') as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $item->date }}</td>
