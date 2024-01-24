@@ -150,7 +150,7 @@ class CashAdvanceController extends Controller
     public function pdf(CashAdvance $cashAdvance)
     {
         $pdf = Pdf::loadView('cash-advance.pdf', compact('cashAdvance'));
-        return $pdf->download('cash-advance.pdf');
+        return $pdf->stream('cash-advance.pdf');
     }
 
     public function note(CashAdvance $cashAdvance): RedirectResponse

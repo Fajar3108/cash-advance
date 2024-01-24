@@ -159,7 +159,7 @@ class CaUsageController extends Controller
     public function pdf(CaUsage $caUsage)
     {
         $pdf = Pdf::loadView('ca-usage.pdf', compact('caUsage'));
-        return $pdf->download('ca-usage.pdf');
+        return $pdf->stream('ca-usage.pdf');
     }
 
     public function note(CaUsage $caUsage): RedirectResponse

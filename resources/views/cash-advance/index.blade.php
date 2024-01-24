@@ -304,8 +304,8 @@
                                 @endif
                                 @if ($cashAdvance->is_approved)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" type="button"
-                                        class="p-3 flex gap-3 items-center">
+                                    <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" target="_blank"
+                                        type="button" class="p-3 flex gap-3 items-center">
                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 16 20">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
