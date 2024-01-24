@@ -6,7 +6,7 @@
 
 <div class="w-full md:w-1/2 border border-gray-300 rounded-xl">
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Nama CA</p>
+        <p class="font-bold">Nama Pemakaian CA</p>
         <p>{{ $caUsage->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
