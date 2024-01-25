@@ -186,7 +186,7 @@ class CashAdvanceController extends Controller
             if ($request->has('startDate')) {
                 $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', $request->startDate);
             } else {
-                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
+                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', now()->format('Y-m-d'));
             }
 
             if ($request->has('endDate')) {

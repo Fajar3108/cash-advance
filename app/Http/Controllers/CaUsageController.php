@@ -195,7 +195,7 @@ class CaUsageController extends Controller
             if ($request->has('startDate')) {
                 $caUsagesRaw = $caUsagesRaw->where('date', '>=', $request->startDate);
             } else {
-                $caUsagesRaw = $caUsagesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
+                $caUsagesRaw = $caUsagesRaw->where('date', '>=', now()->format('Y-m-d'));
             }
 
             if ($request->has('endDate')) {
