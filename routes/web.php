@@ -60,5 +60,6 @@ Route::middleware(['auth'])->group(function () {
         Route::patch('/cash-advances/{cashAdvance}/approve', [CashAdvanceController::class, 'approve'])->name('cash-advances.approve');
 
         Route::patch('/ca-usages/{caUsage}/approve', [CaUsageController::class, 'approve'])->name('ca-usages.approve');
+        Route::get('/ca-usages-report', [CaUsageController::class, 'report'])->name('ca-usages.report');
     });
 });

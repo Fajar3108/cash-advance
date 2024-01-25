@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -178,5 +179,42 @@ class CaUsageController extends Controller
         Alert::success('Success', 'Note updated successfully');
 
         return back();
+    }
+
+    public function report(Request $request): View
+    {
+        $caUsagesRaw = CaUsage::with('user', 'admin')->orderBy('date', 'DESC');
+
+        if ($request->has('q')) {
+            $caUsagesRaw = $caUsagesRaw->where('name', 'like', '%' . $request->q . '%');
+        } else {
+            if ($request->has('requestBy')) {
+                $caUsagesRaw = $caUsagesRaw->where('user_id', $request->requestBy);
+            }
+
+            if ($request->has('startDate')) {
+                $caUsagesRaw = $caUsagesRaw->where('date', '>=', $request->startDate);
+            } else {
+                $caUsagesRaw = $caUsagesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
+            }
+
+            if ($request->has('endDate')) {
+                $caUsagesRaw = $caUsagesRaw->where('date', '<=', $request->endDate);
+            } else {
+                $caUsagesRaw = $caUsagesRaw->where('date', '<=', now()->format('Y-m-d'));
+            }
+        }
+
+        $caUsagesRaw = $caUsagesRaw->get()->groupBy('user_id');
+
+        $caUsages = collect();
+
+        $caUsagesRaw->each(function ($cashAdvance) use ($caUsages) {
+            foreach ($cashAdvance as $item) {
+                $caUsages->push($item);
+            }
+        });
+
+        return view('ca-usage.report', compact('caUsages'));
     }
 }

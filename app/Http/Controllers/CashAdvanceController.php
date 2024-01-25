@@ -178,22 +178,22 @@ class CashAdvanceController extends Controller
 
         if ($request->has('q')) {
             $cashAdvancesRaw = $cashAdvancesRaw->where('name', 'like', '%' . $request->q . '%');
-        }
-
-        if ($request->has('requestBy')) {
-            $cashAdvancesRaw = $cashAdvancesRaw->where('user_id', $request->requestBy);
-        }
-
-        if ($request->has('startDate')) {
-            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', $request->startDate);
         } else {
-            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
-        }
+            if ($request->has('requestBy')) {
+                $cashAdvancesRaw = $cashAdvancesRaw->where('user_id', $request->requestBy);
+            }
 
-        if ($request->has('endDate')) {
-            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', $request->endDate);
-        } else {
-            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', now()->format('Y-m-d'));
+            if ($request->has('startDate')) {
+                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', $request->startDate);
+            } else {
+                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
+            }
+
+            if ($request->has('endDate')) {
+                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', $request->endDate);
+            } else {
+                $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', now()->format('Y-m-d'));
+            }
         }
 
         $cashAdvancesRaw = $cashAdvancesRaw->get()->groupBy('user_id');
