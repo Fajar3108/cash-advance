@@ -27,7 +27,7 @@
         <p>{{ $caUsage->user->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Penyetuju</p>
+        <p class="font-bold">Menyetujui</p>
         <p>{{ $caUsage->admin->name ?? "-" }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">

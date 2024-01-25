@@ -27,7 +27,7 @@
         <p>{{ $cashAdvance->user->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold pr-3">Penyetuju</p>
+        <p class="font-bold">Menyetujui</p>
         <p>{{ $cashAdvance->admin->name ?? "-" }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
