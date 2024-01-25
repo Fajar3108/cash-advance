@@ -6,7 +6,7 @@
 
 <div class="w-full md:w-1/2 border border-gray-300 rounded-xl">
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Nama Pemakaian CA</p>
+        <p class="font-bold mr-3">Nama Pemakaian CA</p>
         <p>{{ $caUsage->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
@@ -61,6 +61,10 @@
                 d="m13 7-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
         </svg>
         @endif
+    </div>
+    <div class="flex justify-between p-4 border-b">
+        <p class="font-bold mr-3">keterangan</p>
+        <p>{{ $caUsage->note ?? '-' }}</p>
     </div>
 </div>
 

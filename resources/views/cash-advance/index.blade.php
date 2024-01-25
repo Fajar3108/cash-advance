@@ -78,12 +78,11 @@
                         {{ Carbon\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $cashAdvance->name }}
+                        {{ str()->limit($cashAdvance->name, 20) }}
                     </th>
                     <td class="px-6 py-4">
                         {{ $cashAdvance->user->name }}
                     </td>
-
                     <td class="px-6 py-4">
                         @if (!$cashAdvance->is_approved && auth()->user()->role_id ==
                         Database\Seeders\RoleSeeder::ADMIN_ID)

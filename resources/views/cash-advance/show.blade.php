@@ -6,15 +6,15 @@
 
 <div class="w-full md:w-1/2 border border-gray-300 rounded-xl">
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Nama CA</p>
+        <p class="font-bold pr-3">Nama CA</p>
         <p>{{ $cashAdvance->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Tanggal</p>
+        <p class="font-bold pr-3">Tanggal</p>
         <p>{{ $cashAdvance->date }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Status</p>
+        <p class="font-bold pr-3">Status</p>
         @if ($cashAdvance->is_approved)
         <p class="text-green-600 font-bold">Accepted</p>
         @else
@@ -23,15 +23,15 @@
 
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Pemohon</p>
+        <p class="font-bold pr-3">Pemohon</p>
         <p>{{ $cashAdvance->user->name }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">Penyetuju</p>
+        <p class="font-bold pr-3">Penyetuju</p>
         <p>{{ $cashAdvance->admin->name ?? "-" }}</p>
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">TTD Digital Pemohon</p>
+        <p class="font-bold pr-3">TTD Digital Pemohon</p>
         @if ($cashAdvance->is_user_signature_showed)
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 20 20">
@@ -47,7 +47,7 @@
         @endif
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">TTD Digital Penyetuju</p>
+        <p class="font-bold pr-3">TTD Digital Penyetuju</p>
         @if ($cashAdvance->is_admin_signature_showed)
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 20 20">
@@ -61,6 +61,10 @@
                 d="m13 7-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
         </svg>
         @endif
+    </div>
+    <div class="flex justify-between p-4 border-b">
+        <p class="font-bold pr-3">Keterangan</p>
+        <p>{{ $cashAdvance->note ?? '-' }}</p>
     </div>
 </div>
 
