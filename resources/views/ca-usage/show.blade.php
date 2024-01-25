@@ -47,7 +47,7 @@
         @endif
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold">TTD Digital Penyetuju</p>
+        <p class="font-bold">TTD Digital Menyetujui</p>
         @if ($caUsage->is_admin_signature_showed)
         <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             fill="none" viewBox="0 0 20 20">
