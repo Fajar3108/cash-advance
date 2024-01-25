@@ -134,10 +134,10 @@
         <thead>
             <tr>
                 <th>NO</th>
+                <th>TGL</th>
                 <th>Keterangan</th>
                 <th>D</th>
                 <th>K</th>
-                <th>Jumlah</th>
             </tr>
         </thead>
         <tbody>
