@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CaUsageAttachmentRequest;
 use App\Models\CaUsage;
 use App\Models\CaUsageAttachment;
-use Database\Seeders\RoleSeeder;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -20,12 +18,6 @@ class CaUsageAttachmentController extends Controller
 
     public function store(CaUsage $caUsage, CaUsageAttachmentRequest $request)
     {
-
-        if ($caUsage->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('ca-usages.index');
-        }
-
         $path = $request->file('attachment')->store('ca-usage-attachments', [
             'disk' => 'public',
         ]);
@@ -42,11 +34,6 @@ class CaUsageAttachmentController extends Controller
 
     public function destroy(CaUsageAttachment $caUsageAttachment): RedirectResponse
     {
-        if ($caUsageAttachment->caUsage->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('cash-advances.index');
-        }
-
         Storage::disk('public')->delete($caUsageAttachment->path);
         $caUsageAttachment->delete();
 
