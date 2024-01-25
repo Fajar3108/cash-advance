@@ -23,12 +23,14 @@
             </tr>
         </thead>
         <tbody id="items-container">
+            @if (!empty($items))
             @foreach ($items->where('type', 'credit') as $item)
             @include('ca-usage-item.partials.item-row')
             @endforeach
             @foreach ($items->where('type', 'debit') as $item)
             @include('ca-usage-item.partials.item-row')
             @endforeach
+            @endif
         </tbody>
         @if (request()->routeIs('ca-usages.edit') || request()->routeIs('ca-usages.show'))
         <tfoot>

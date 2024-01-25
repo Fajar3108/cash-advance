@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -169,5 +170,42 @@ class CashAdvanceController extends Controller
         Alert::success('Success', 'Note updated successfully');
 
         return back();
+    }
+
+    public function report(Request $request): View
+    {
+        $cashAdvancesRaw = CashAdvance::with('user', 'admin')->orderBy('date', 'DESC');
+
+        if ($request->has('q')) {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('name', 'like', '%' . $request->q . '%');
+        }
+
+        if ($request->has('requestBy')) {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('user_id', $request->requestBy);
+        }
+
+        if ($request->has('startDate')) {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', $request->startDate);
+        } else {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '>=', now()->subMonth()->format('Y-m-d'));
+        }
+
+        if ($request->has('endDate')) {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', $request->endDate);
+        } else {
+            $cashAdvancesRaw = $cashAdvancesRaw->where('date', '<=', now()->format('Y-m-d'));
+        }
+
+        $cashAdvancesRaw = $cashAdvancesRaw->get()->groupBy('user_id');
+
+        $cashAdvances = collect();
+
+        $cashAdvancesRaw->each(function ($cashAdvance) use ($cashAdvances) {
+            foreach ($cashAdvance as $item) {
+                $cashAdvances->push($item);
+            }
+        });
+
+        return view('cash-advance.report', compact('cashAdvances'));
     }
 }

@@ -55,7 +55,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
+
+        Route::get('/cash-advances-report', [CashAdvanceController::class, 'report'])->name('cash-advances.report');
         Route::patch('/cash-advances/{cashAdvance}/approve', [CashAdvanceController::class, 'approve'])->name('cash-advances.approve');
+
         Route::patch('/ca-usages/{caUsage}/approve', [CaUsageController::class, 'approve'])->name('ca-usages.approve');
     });
 });
