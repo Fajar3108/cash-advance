@@ -138,6 +138,17 @@
                 </a>
             </li>
             @endif
+            <li>
+                <a href="{{ route('reimbursements.index')  }}"
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 17.3a5 5 0 0 0 2.6 1.7c2.2.6 4.5-.5 5-2.3.4-2-1.3-4-3.6-4.5-2.3-.6-4-2.7-3.5-4.5.5-1.9 2.7-3 5-2.3 1 .2 1.8.8 2.5 1.6m-3.9 12v2m0-18v2.2" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Reimbursement</span>
+                </a>
+            </li>
             @if (auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
             <li>
                 <a href="{{ route('users.index')  }}"

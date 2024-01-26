@@ -93,7 +93,7 @@
                         $cashAdvance->created_at->format('Y') }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $cashAdvance->name }}
+                        {{ str()->limit($cashAdvance->name, 20) }}
                     </th>
                     <td class="px-6 py-4">
                         @if (!$cashAdvance->is_approved)

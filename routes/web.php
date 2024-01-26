@@ -7,6 +7,7 @@ use App\Http\Controllers\CaUsageAttachmentController;
 use App\Http\Controllers\CaUsageController;
 use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ReimbursementController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ca-usages/{caUsage}/ca-usage-attachments', CaUsageAttachmentController::class)->only('index', 'store');
     Route::delete('/ca-usage-attachments/{caUsageAttachment}', [CaUsageAttachmentController::class, 'destroy'])->name('ca-usage-attachments.destroy');
 
+    Route::resource('reimbursements', ReimbursementController::class);
+    Route::patch('/reimbursements/{reimbursement}/note', [ReimbursementController::class, 'note'])->name('reimbursements.note');
+    Route::get('/reimbursements/{reimbursement}/pdf', [ReimbursementController::class, 'pdf'])->name('reimbursements.pdf');
+
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
 
@@ -61,5 +66,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::patch('/ca-usages/{caUsage}/approve', [CaUsageController::class, 'approve'])->name('ca-usages.approve');
         Route::get('/ca-usages-report', [CaUsageController::class, 'report'])->name('ca-usages.report');
+
+        Route::patch('/reimbursements/{reimbursement}/approve', [ReimbursementController::class, 'approve'])->name('reimbursements.approve');
     });
 });
