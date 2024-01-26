@@ -4,16 +4,13 @@
             <tr>
                 <th scope="col" class="px-6 py-3">No</th>
                 <th scope="col" class="px-6 py-3">
+                    Tanggal
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Keterangan
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    QTY
-                </th>
-                <th scope="col" class="px-6 py-3">
                     Harga
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Jumlah
                 </th>
                 @if (request()->routeIs('reimbursements.edit') || request()->routeIs('reimbursements.create'))
                 <th scope="col" class="px-6 py-3">
@@ -28,17 +25,14 @@
                 <td class="px-6 py-4">
                     {{ $loop->iteration }}
                 </td>
+                <td class="px-6 py-4">
+                    {{ $item->date }}
+                </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item->note }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $item->quantity }}
-                </td>
-                <td class="px-6 py-4">
                     Rp{{ number_format($item->price, 0, ',', '.') }}
-                </td>
-                <td class="px-6 py-4">
-                    Rp{{ number_format($item->quantity * $item->price, 0, ',', '.') }}
                 </td>
                 @if (request()->routeIs('reimbursements.edit'))
                 <td scope="col" class="px-6 py-3">

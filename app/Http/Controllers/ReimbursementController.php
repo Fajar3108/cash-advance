@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReimbursementRequest;
 use App\Models\Reimbursement;
 use App\Models\ReimbursementItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -71,7 +72,7 @@ class ReimbursementController extends Controller
                     'id' => str()->uuid(),
                     'note' => $items[$i]->note,
                     'price' => $items[$i]->price,
-                    'quantity' => $items[$i]->quantity,
+                    'date' => $items[$i]->date,
                     'reimbursement_id' => $reimbursement->id,
                     'created_at' => now(),
                     'updated_at' => now(),
@@ -162,5 +163,11 @@ class ReimbursementController extends Controller
         Alert::success('Success', 'Note updated successfully');
 
         return back();
+    }
+
+    public function pdf(Reimbursement $reimbursement)
+    {
+        $pdf = Pdf::loadView('reimbursement.pdf', compact('reimbursement'));
+        return $pdf->stream('reimbursement.pdf');
     }
 }

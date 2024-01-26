@@ -24,7 +24,7 @@ class ReimbursementItemRequest extends FormRequest
         return [
             'note' => ['required', 'string'],
             'price' => ['required', 'numeric', 'min:1'],
-            'quantity' => ['required', 'numeric', 'min:1'],
+            'date' => ['required', 'date'],
         ];
     }
 }

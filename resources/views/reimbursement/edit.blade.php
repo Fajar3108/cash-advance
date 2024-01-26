@@ -33,11 +33,7 @@
     <div class="w-full flex justify-end py-4">
         <p class="font-bold">
             Total: Rp{{
-            number_format(
-            $reimbursement->items->sum(function($t){
-            return $t->quantity * $t->price;
-            }), 0, ',', '.'
-            );
+            number_format($reimbursement->items->sum('price'), 0, ',', '.');
             }}
         </p>
     </div>

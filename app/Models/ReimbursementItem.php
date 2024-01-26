@@ -15,7 +15,7 @@ class ReimbursementItem extends Model
         'reimbursement_id',
         'note',
         'price',
-        'quantity',
+        'date',
     ];
 
     public function reimbursement(): BelongsTo

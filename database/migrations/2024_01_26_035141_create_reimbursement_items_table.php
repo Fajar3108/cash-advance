@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('reimbursement_id')->constrained()->onDelete('cascade');
             $table->text('note');
-            $table->integer('quantity');
+            $table->date('date');
             $table->integer('price');
             $table->timestamps();
         });
