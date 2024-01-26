@@ -1,7 +1,7 @@
 @php
 $values = [
 'note' => '',
-'date' => 0,
+'date' => date('Y-m-d'),
 'price' => 0,
 ];
 

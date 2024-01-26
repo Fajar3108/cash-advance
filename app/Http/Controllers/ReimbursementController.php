@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -169,5 +170,44 @@ class ReimbursementController extends Controller
     {
         $pdf = Pdf::loadView('reimbursement.pdf', compact('reimbursement'));
         return $pdf->stream('reimbursement.pdf');
+    }
+
+    public function report(Request $request): View
+    {
+        $reimbursementsRaw = Reimbursement::with('user', 'admin')->orderBy('date', 'DESC');
+
+        if (request()->has('q')) {
+            $reimbursementsRaw = $reimbursementsRaw->whereHas('user', function ($query) {
+                $query->where('name', 'like', '%' . request('q') . '%');
+            });
+        } else {
+            if ($request->has('requestBy')) {
+                $reimbursementsRaw = $reimbursementsRaw->where('user_id', $request->requestBy);
+            }
+
+            if ($request->has('startDate')) {
+                $reimbursementsRaw = $reimbursementsRaw->where('date', '>=', $request->startDate);
+            } else {
+                $reimbursementsRaw = $reimbursementsRaw->where('date', '>=', now()->format('Y-m-d'));
+            }
+
+            if ($request->has('endDate')) {
+                $reimbursementsRaw = $reimbursementsRaw->where('date', '<=', $request->endDate);
+            } else {
+                $reimbursementsRaw = $reimbursementsRaw->where('date', '<=', now()->format('Y-m-d'));
+            }
+        }
+
+        $reimbursementsRaw = $reimbursementsRaw->get()->groupBy('user_id');
+
+        $reimbursements = collect();
+
+        $reimbursementsRaw->each(function ($reimbursement) use ($reimbursements) {
+            foreach ($reimbursement as $item) {
+                $reimbursements->push($item);
+            }
+        });
+
+        return view('reimbursement.report', compact('reimbursements'));
     }
 }

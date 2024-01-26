@@ -151,6 +151,19 @@
             </li>
             @if (auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
             <li>
+                <a href="{{ route('reimbursements.report')  }}"
+                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linejoin="round" stroke-width="2"
+                            d="M10 12v1h4v-1m4 7H6a1 1 0 0 1-1-1V9h14v9a1 1 0 0 1-1 1ZM4 5h16c.6 0 1 .4 1 1v2c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1V6c0-.6.4-1 1-1Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Laporan Reimbursement</span>
+                </a>
+            </li>
+            @endif
+            @if (auth()->user()->role_id === Database\Seeders\RoleSeeder::ADMIN_ID)
+            <li>
                 <a href="{{ route('users.index')  }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"

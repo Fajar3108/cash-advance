@@ -70,5 +70,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ca-usages-report', [CaUsageController::class, 'report'])->name('ca-usages.report');
 
         Route::patch('/reimbursements/{reimbursement}/approve', [ReimbursementController::class, 'approve'])->name('reimbursements.approve');
+        Route::get('/reimbursements-report', [ReimbursementController::class, 'report'])->name('reimbursements.report');
     });
 });
