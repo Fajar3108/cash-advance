@@ -266,7 +266,7 @@
                                                     d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
                                             </g>
                                         </svg>
-                                        Detail CA
+                                        Detail
                                     </a>
                                 </li>
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">

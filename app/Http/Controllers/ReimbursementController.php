@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReimbursementRequest;
 use App\Models\Reimbursement;
+use App\Models\ReimbursementItem;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ReimbursementController extends Controller
@@ -44,6 +46,11 @@ class ReimbursementController extends Controller
 
     public function store(ReimbursementRequest $request): RedirectResponse
     {
+        if (empty($request->items)) {
+            Alert::error('Error', 'Please add at least one item');
+            return back()->withInput($request->except('items'));
+        }
+
         $data = $request->validated();
 
         if ($request->is_user_signature_showed) {
@@ -54,7 +61,26 @@ class ReimbursementController extends Controller
 
         $data['user_id'] = auth()->id();
 
-        $reimbursement = Reimbursement::create($data);
+        $items = json_decode($request->items);
+
+        DB::transaction(function () use ($data, $items) {
+            $reimbursement = Reimbursement::create($data);
+
+            for ($i = 0; $i < count($items); $i++) {
+                $items[$i] = [
+                    'id' => str()->uuid(),
+                    'note' => $items[$i]->note,
+                    'price' => $items[$i]->price,
+                    'quantity' => $items[$i]->quantity,
+                    'reimbursement_id' => $reimbursement->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            ReimbursementItem::insert($items);
+        });
+
 
         Alert::success('Success', 'Reimbursement created successfully');
 
@@ -63,11 +89,21 @@ class ReimbursementController extends Controller
 
     public function edit(Reimbursement $reimbursement): View
     {
+        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
+            Alert::error('Error', 'You cannot edit approved reimbursement');
+            return redirect()->route('reimbursements.index');
+        }
+
         return view('reimbursement.edit', compact('reimbursement'));
     }
 
     public function update(ReimbursementRequest $request, Reimbursement $reimbursement): RedirectResponse
     {
+        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
+            Alert::error('Error', 'You cannot edit approved reimbursement');
+            return redirect()->route('reimbursements.index');
+        }
+
         $data = $request->validated();
 
         if ($request->is_user_signature_showed) {
@@ -85,6 +121,11 @@ class ReimbursementController extends Controller
 
     public function destroy(Reimbursement $reimbursement): RedirectResponse
     {
+        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
+            Alert::error('Error', 'You cannot delete approved reimbursement');
+            return redirect()->route('reimbursements.index');
+        }
+
         $reimbursement->delete();
 
         Alert::success('Success', 'Reimbursement deleted successfully');

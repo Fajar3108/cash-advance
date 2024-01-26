@@ -17,26 +17,31 @@
     <input type="hidden" id="items-hidden-input" name="items" value="">
 </form>
 <hr>
-{{-- <div class="relative overflow-x-auto px-2 mt-5">
-    <h2 class="text-lg font-bold mb-3">Items</h2>
-    @error('items')
-    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        {{ $message }}
+<div class="relative overflow-x-auto px-2 mt-5">
+    <div class="flex justify-between items-center mb-3">
+        <h2 class="text-lg font-bold mb-3">Items</h2>
+        <a href="{{ route('reimbursement-items.create', $reimbursement->id) }}"
+            class="focus:outline-none text-blue-600 border border-blue-700 hover:text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm py-2 px-4 flex gap-2 items-center">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 1v16M1 9h16" />
+            </svg>
+            Tambah
+        </a>
     </div>
-    @enderror
-    <div id="item-form">
-        @include('item.partials.form')
+    @include('reimbursement-item.partials.table', ['items' => $reimbursement->items])
+    <div class="w-full flex justify-end py-4">
+        <p class="font-bold">
+            Total: Rp{{
+            number_format(
+            $reimbursement->items->sum(function($t){
+            return $t->quantity * $t->price;
+            }), 0, ',', '.'
+            );
+            }}
+        </p>
     </div>
-    <button type="button" id="add-item-button"
-        class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-10">
-        <svg class="w-4 h-4 text-blue-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 18 18">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 1v16M1 9h16" />
-        </svg>
-    </button>
-    @include('item.partials.table', ['items' => []])
-</div> --}}
+</div>
 @endsection
 
 @section('scripts')

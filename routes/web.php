@@ -8,6 +8,7 @@ use App\Http\Controllers\CaUsageController;
 use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReimbursementController;
+use App\Http\Controllers\ReimbursementItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/ca-usage-attachments/{caUsageAttachment}', [CaUsageAttachmentController::class, 'destroy'])->name('ca-usage-attachments.destroy');
 
     Route::resource('reimbursements', ReimbursementController::class);
+    Route::resource('reimbursements/{reimbursement}/reimbursement-items', ReimbursementItemController::class)->except('show');
     Route::patch('/reimbursements/{reimbursement}/note', [ReimbursementController::class, 'note'])->name('reimbursements.note');
     Route::get('/reimbursements/{reimbursement}/pdf', [ReimbursementController::class, 'pdf'])->name('reimbursements.pdf');
 

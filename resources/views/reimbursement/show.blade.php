@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('page_title', 'Detail CA')
+@section('page_title', 'Detail Reimbursement')
 
 @section('admin_content')
 
@@ -64,9 +64,9 @@
     </div>
 </div>
 
-{{-- <div class="relative overflow-x-auto px-2 mt-5">
+<div class="relative overflow-x-auto px-2 mt-5">
     <h2 class="text-lg font-bold mb-3">Items</h2>
-    @include('item.partials.table', ['items' => $reimbursement->items])
+    @include('reimbursement-item.partials.table', ['items' => $reimbursement->items])
     <div class="w-full flex justify-end py-4">
         <p class="font-bold">
             Total: Rp{{
@@ -78,5 +78,5 @@
             }}
         </p>
     </div>
-</div> --}}
+</div>
 @endsection

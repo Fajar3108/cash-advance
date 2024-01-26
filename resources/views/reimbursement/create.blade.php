@@ -16,7 +16,7 @@
     <input type="hidden" id="items-hidden-input" name="items" value="">
 </form>
 <hr>
-{{-- <div class="relative overflow-x-auto px-2 mt-5">
+<div class="relative overflow-x-auto px-2 mt-5">
     <h2 class="text-lg font-bold mb-3">Items</h2>
     @error('items')
     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
@@ -34,8 +34,8 @@
                 d="M9 1v16M1 9h16" />
         </svg>
     </button>
-    @include('item.partials.table', ['items' => []])
-</div> --}}
+    @include('reimbursement-item.partials.table', ['items' => []])
+</div>
 @endsection
 
 @section('scripts')
