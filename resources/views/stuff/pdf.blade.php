@@ -135,7 +135,7 @@
             @foreach ($stuff->items as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td class="text-right">{{ $item->name }}</td>
+                <td>{{ $item->name }}</td>
                 <td class="text-center">{{ $item->quantity }}</td>
                 <td>{!! nl2br($item->note) !!}</td>
             </tr>
