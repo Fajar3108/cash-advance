@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReimbursementAttachmentController;
 use App\Http\Controllers\ReimbursementController;
 use App\Http\Controllers\ReimbursementItemController;
+use App\Http\Controllers\StuffAttachmentController;
 use App\Http\Controllers\StuffController;
 use App\Http\Controllers\StuffItemController;
 use App\Http\Controllers\UserController;
@@ -68,9 +69,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('stuffs', StuffController::class);
     Route::resource('stuffs/{stuff}/stuff-items', StuffItemController::class)->except('show');
-    Route::patch('/rstuffs/{stuff}/note', [StuffController::class, 'note'])->name('stuffs.note');
+    Route::patch('/stuffs/{stuff}/note', [StuffController::class, 'note'])->name('stuffs.note');
     Route::get('/stuffs/{stuff}/pdf', [StuffController::class, 'pdf'])->name('stuffs.pdf');
 
+    Route::resource('stuffs/{stuff}/stuff-attachments', StuffAttachmentController::class)->only('index', 'store');
+    Route::delete('/stuff-attachments/{stuffAttachment}', [StuffAttachmentController::class, 'destroy'])->name('stuff-attachments.destroy');
 
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
