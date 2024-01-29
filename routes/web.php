@@ -7,6 +7,7 @@ use App\Http\Controllers\CaUsageAttachmentController;
 use App\Http\Controllers\CaUsageController;
 use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ReimbursementAttachmentController;
 use App\Http\Controllers\ReimbursementController;
 use App\Http\Controllers\ReimbursementItemController;
 use App\Http\Controllers\StuffController;
@@ -60,6 +61,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('reimbursements/{reimbursement}/reimbursement-items', ReimbursementItemController::class)->except('show');
     Route::patch('/reimbursements/{reimbursement}/note', [ReimbursementController::class, 'note'])->name('reimbursements.note');
     Route::get('/reimbursements/{reimbursement}/pdf', [ReimbursementController::class, 'pdf'])->name('reimbursements.pdf');
+
+    Route::resource('reimbursements/{reimbursement}/reimbursement-attachments', ReimbursementAttachmentController::class)->only('index', 'store');
+    Route::delete('/reimbursement-attachments/{reimbursementAttachment}', [ReimbursementAttachmentController::class, 'destroy'])->name('reimbursement-attachments.destroy');
 
     Route::resource('stuffs', StuffController::class);
     Route::patch('/rstuffs/{stuff}/note', [StuffController::class, 'note'])->name('stuffs.note');
