@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StuffRequest;
 use App\Models\Stuff;
 use App\Models\StuffItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -140,6 +141,12 @@ class StuffController extends Controller
         Alert::success('Success', 'Note updated successfully');
 
         return redirect()->route('stuffs.index');
+    }
+
+    public function pdf(Stuff $stuff)
+    {
+        $pdf = Pdf::loadView('stuff.pdf', compact('stuff'));
+        return $pdf->stream('stuff.pdf');
     }
 
     public function report(Request $request): View
