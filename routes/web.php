@@ -11,6 +11,7 @@ use App\Http\Controllers\ReimbursementAttachmentController;
 use App\Http\Controllers\ReimbursementController;
 use App\Http\Controllers\ReimbursementItemController;
 use App\Http\Controllers\StuffController;
+use App\Http\Controllers\StuffItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reimbursement-attachments/{reimbursementAttachment}', [ReimbursementAttachmentController::class, 'destroy'])->name('reimbursement-attachments.destroy');
 
     Route::resource('stuffs', StuffController::class);
+    Route::resource('stuffs/{stuff}/stuff-items', StuffItemController::class)->except('show');
     Route::patch('/rstuffs/{stuff}/note', [StuffController::class, 'note'])->name('stuffs.note');
     Route::get('/stuffs/{stuff}/pdf', [StuffController::class, 'pdf'])->name('stuffs.pdf');
 

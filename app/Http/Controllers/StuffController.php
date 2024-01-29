@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StuffRequest;
 use App\Models\Stuff;
+use App\Models\StuffItem;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -41,6 +42,11 @@ class StuffController extends Controller
 
     public function store(StuffRequest $request)
     {
+        if (empty($request->items)) {
+            Alert::error('Error', 'Please add at least one item');
+            return back()->withInput($request->except('items'));
+        }
+
         $data = $request->validated();
 
         if ($request->is_user_signature_showed) {
@@ -50,9 +56,24 @@ class StuffController extends Controller
         }
 
         $data['user_id'] = auth()->id();
+        $items = json_decode($request->items);
 
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data, $items) {
             $stuff = Stuff::create($data);
+
+            for ($i = 0; $i < count($items); $i++) {
+                $items[$i] = [
+                    'id' => str()->uuid(),
+                    'note' => $items[$i]->note,
+                    'name' => $items[$i]->name,
+                    'quantity' => $items[$i]->quantity,
+                    'stuff_id' => $stuff->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            StuffItem::insert($items);
         });
 
 

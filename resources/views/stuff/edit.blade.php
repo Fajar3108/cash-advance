@@ -16,4 +16,21 @@
     </div>
     <input type="hidden" id="items-hidden-input" name="items" value="">
 </form>
+
+<div class="flex justify-between items-center mb-3">
+    <h2 class="text-lg font-bold mb-3">Items</h2>
+    <a href="{{ route('stuff-items.create', $stuff->id) }}"
+        class="focus:outline-none text-blue-600 border border-blue-700 hover:text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg cursor-pointer text-sm py-2 px-4 flex gap-2 items-center">
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 1v16M1 9h16" />
+        </svg>
+        Tambah
+    </a>
+</div>
+@include('stuff-item.partials.table', ['items' => $stuff->items])
+@endsection
+
+@section('scripts')
+@vite('resources/js/manage-stuff-item.js')
 @endsection

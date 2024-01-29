@@ -66,4 +66,9 @@
         <p>{{ $stuff->note ?? '-' }}</p>
     </div>
 </div>
+
+<div class="relative overflow-x-auto px-2 mt-5">
+    <h2 class="text-lg font-bold mb-3">Items</h2>
+    @include('stuff-item.partials.table', ['items' => $stuff->items])
+</div>
 @endsection
