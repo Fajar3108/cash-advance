@@ -9,6 +9,7 @@ use App\Http\Controllers\CaUsageItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReimbursementController;
 use App\Http\Controllers\ReimbursementItemController;
+use App\Http\Controllers\StuffController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,11 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/reimbursements/{reimbursement}/note', [ReimbursementController::class, 'note'])->name('reimbursements.note');
     Route::get('/reimbursements/{reimbursement}/pdf', [ReimbursementController::class, 'pdf'])->name('reimbursements.pdf');
 
+    Route::resource('stuffs', StuffController::class);
+    Route::patch('/rstuffs/{stuff}/note', [StuffController::class, 'note'])->name('stuffs.note');
+    Route::get('/stuffs/{stuff}/pdf', [StuffController::class, 'pdf'])->name('stuffs.pdf');
+
+
     Route::middleware(['admin'])->group(function () {
         Route::resource('users', UserController::class)->except('show');
 
@@ -71,5 +77,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::patch('/reimbursements/{reimbursement}/approve', [ReimbursementController::class, 'approve'])->name('reimbursements.approve');
         Route::get('/reimbursements-report', [ReimbursementController::class, 'report'])->name('reimbursements.report');
+
+        Route::patch('/stuffs/{stuff}/approve', [StuffController::class, 'approve'])->name('stuffs.approve');
+        Route::get('/stuffs-report', [StuffController::class, 'report'])->name('stuffs.report');
     });
 });
