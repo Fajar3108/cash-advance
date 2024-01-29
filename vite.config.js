@@ -10,7 +10,7 @@ export default defineConfig({
                 'resources/js/manage-item.js',
                 'resources/js/manage-ca-usage-item.js',
                 'resources/js/manage-reimbursement-item.js',
-                'resources/js/stuff-item.js',
+                'resources/js/manage-stuff-item.js',
             ],
             refresh: true,
         }),
