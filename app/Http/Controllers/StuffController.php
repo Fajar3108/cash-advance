@@ -68,6 +68,7 @@ class StuffController extends Controller
                     'note' => $items[$i]->note,
                     'name' => $items[$i]->name,
                     'quantity' => $items[$i]->quantity,
+                    'price' => $items[$i]->price,
                     'stuff_id' => $stuff->id,
                     'created_at' => now(),
                     'updated_at' => now(),

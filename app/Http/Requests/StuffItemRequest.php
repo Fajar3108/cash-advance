@@ -25,6 +25,7 @@ class StuffItemRequest extends FormRequest
             'note' => ['required', 'string'],
             'name' => ['required'],
             'quantity' => ['required', 'numeric', 'min:1'],
+            'price' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

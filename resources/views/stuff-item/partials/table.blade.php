@@ -12,6 +12,10 @@
                 <th scope="col" class="px-6 py-3">
                     Keterangan
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    Perkiraan Harga<br />
+                    <small>(Termasuk ongkir)</small>
+                </th>
                 @if (request()->routeIs('stuffs.edit') || request()->routeIs('stuffs.create'))
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -47,6 +51,9 @@
                         {!! nl2br($item->note) !!}
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
+                </td>
+                <td class="px-6 py-4">
+                    Rp {{ number_format($item->price) }}
                 </td>
                 @if (request()->routeIs('stuffs.edit'))
                 <td scope="col" class="px-6 py-3">

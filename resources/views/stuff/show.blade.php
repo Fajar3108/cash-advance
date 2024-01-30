@@ -66,9 +66,13 @@
         <p>{{ $stuff->note ?? '-' }}</p>
     </div>
 </div>
-
 <div class="relative overflow-x-auto px-2 mt-5">
     <h2 class="text-lg font-bold mb-3">Items</h2>
     @include('stuff-item.partials.table', ['items' => $stuff->items])
+    <div class="w-full flex justify-end py-4">
+        <p class="font-bold">
+            Total: Rp{{number_format($stuff->items->sum('price'), 0, ',', '.');}}
+        </p>
+    </div>
 </div>
 @endsection

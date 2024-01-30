@@ -9,14 +9,15 @@ addItemButton.addEventListener('click', () => {
     const nameInput = itemForm.querySelector('#name');
     const quantityInput = itemForm.querySelector('#quantity');
     const noteInput = itemForm.querySelector('#note');
+    const priceInput = itemForm.querySelector('#price');
 
     if (nameInput.value === '' || quantityInput.value === '' || noteInput.value === '') {
         alert('Please fill in all fields');
         return
     }
 
-    if (isNaN(quantityInput.value)) {
-        alert('quantity must be numbers');
+    if (isNaN(quantityInput.value) && isNaN(priceInput.value)) {
+        alert('Price and quantity must be numbers');
         return
     }
 
@@ -29,6 +30,7 @@ addItemButton.addEventListener('click', () => {
         note: noteInput.value,
         name: nameInput.value,
         quantity: Number(quantityInput.value),
+        price: Number(priceInput.value),
     };
 
     currentItems.push(item);
@@ -36,6 +38,7 @@ addItemButton.addEventListener('click', () => {
     nameInput.value = '';
     quantityInput.value = 0;
     noteInput.value = '';
+    priceInput.value = 0;
 
     renderItems();
 });
@@ -75,6 +78,10 @@ const renderItems = () => {
         nameData.className = 'px-6 py-4';
         nameData.innerText = item.name;
 
+        const priceData = document.createElement('td');
+        priceData.className = 'px-6 py-4';
+        priceData.innerText = item.price;
+
         const actionData = document.createElement('td');
         actionData.className = 'px-6 py-4';
 
@@ -90,6 +97,7 @@ const renderItems = () => {
         row.appendChild(nameData);
         row.appendChild(quantityData);
         row.appendChild(noteData);
+        row.appendChild(priceData);
         row.appendChild(actionData);
 
 

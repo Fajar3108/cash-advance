@@ -63,7 +63,7 @@
         @endif
     </div>
     <div class="flex justify-between p-4 border-b">
-        <p class="font-bold mr-3">keterangan</p>
+        <p class="font-bold mr-3">Keterangan</p>
         <p>{{ $caUsage->note ?? '-' }}</p>
     </div>
 </div>

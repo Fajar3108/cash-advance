@@ -11,7 +11,7 @@ class StuffItem extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['note', 'name', 'quantity'];
+    protected $fillable = ['note', 'name', 'quantity', 'price'];
 
     public function stuff(): BelongsTo
     {

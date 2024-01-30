@@ -71,7 +71,8 @@
             padding: 5px;
         }
 
-        #items-table thead {
+        #items-table thead,
+        #items-table tfoot {
             background-color: #f0f0f0;
         }
 
@@ -129,6 +130,11 @@
                 <th>name</th>
                 <th>QTY</th>
                 <th>Keterangan</th>
+                <th>
+                    Perkiraan Harga
+                    <br />
+                    <small>(Termasuk ongkir)</small>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -138,13 +144,22 @@
                 <td>{{ $item->name }}</td>
                 <td class="text-center">{{ $item->quantity }}</td>
                 <td>{!! nl2br($item->note) !!}</td>
+                <td class="text-right">Rp{{ number_format($item->price) }}</td>
             </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
+                <th colspan="4" class="text-center">
+                    Total
+                </th>
+                <th class="text-right">
+                    Rp{{ number_format($stuff->items->sum('price')) }}
+                </th>
+            </tr>
+            <tr style="background: #fff">
                 <td style="border: 0;"></td>
-                <td colspan="3" style="border: 0;">
+                <td colspan="4" style="border: 0;">
                     Notes: <br />
                     {{ $stuff->description }}
                 </td>
