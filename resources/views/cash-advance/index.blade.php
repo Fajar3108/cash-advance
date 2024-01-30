@@ -78,7 +78,14 @@
                         {{ Carbon\Carbon::parse($cashAdvance->date)->format('d/m/Y') }}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ str()->limit($cashAdvance->name, 20) }}
+                        <span data-tooltip-target="{{ $cashAdvance->id }}">
+                            {{ str()->limit($cashAdvance->name, 20) }}
+                        </span>
+                        <div id="{{ $cashAdvance->id }}" role="tooltip"
+                            class="absolute z-10 max-w-full text-wrap invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                            {{ $cashAdvance->name }}
+                            <div class="tooltip-arrow" data-popper-arrow></div>
+                        </div>
                     </th>
                     <td class="px-6 py-4">
                         {{ $cashAdvance->user->name }}

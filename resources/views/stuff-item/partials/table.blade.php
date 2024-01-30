@@ -26,13 +26,27 @@
                     {{ $loop->iteration }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $item->name }}
+                    <span data-tooltip-target="name-{{ $item->id }}">
+                        {{ str()->limit($item->name, 20) }}
+                    </span>
+                    <div id="name-{{ $item->id }}" role="tooltip"
+                        class="absolute z-10 max-w-full text-wrap invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        {{ $item->name }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
                 </td>
                 <td class="px-6 py-4">
                     {{ $item->quantity }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $item->note }}
+                    <span data-tooltip-target="{{ $item->id }}">
+                        {{ str()->limit($item->note, 20) }}
+                    </span>
+                    <div id="{{ $item->id }}" role="tooltip"
+                        class="absolute z-10 max-w-full text-wrap invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        {!! nl2br($item->note) !!}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
                 </td>
                 @if (request()->routeIs('stuffs.edit'))
                 <td scope="col" class="px-6 py-3">
