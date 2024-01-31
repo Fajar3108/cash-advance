@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/ca-usages/{caUsage}/attachments', [CaUssageAttachmentController::class, 'store']);
+Route::post('/ca-usages/{caUsage}/base64-attachments', [CaUssageAttachmentController::class, 'storeBase64']);
