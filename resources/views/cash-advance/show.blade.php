@@ -64,7 +64,7 @@
     </div>
     <div class="flex justify-between p-4 border-b">
         <p class="font-bold pr-3">Keterangan</p>
-        <p>{{ $cashAdvance->note ?? '-' }}</p>
+        <p>{!! nl2br($cashAdvance->note ?? '-') !!}</p>
     </div>
 </div>
 

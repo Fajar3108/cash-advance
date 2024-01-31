@@ -64,7 +64,7 @@
     </div>
     <div class="flex justify-between p-4 border-b">
         <p class="font-bold mr-3">Keterangan</p>
-        <p>{{ $caUsage->note ?? '-' }}</p>
+        <p>{!! nl2br($caUsage->note ?? '-') !!}</p>
     </div>
 </div>
 

@@ -60,7 +60,7 @@
     </div>
     <div class="flex justify-between p-4 border-b">
         <p class="font-bold pr-3">Keterangan</p>
-        <p>{{ $reimbursement->note ?? '-' }}</p>
+        <p>{!! nl2br($reimbursement->note ?? '-')!!}</p>
     </div>
 </div>
 
