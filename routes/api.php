@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CaUsageController;
 use App\Http\Controllers\Api\CaUssageAttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/users/{user}/ca-usages', [CaUsageController::class, 'getByUserId']);
 
 Route::post('/ca-usages/{caUsage}/attachments', [CaUssageAttachmentController::class, 'store']);
 Route::post('/ca-usages/{caUsage}/base64-attachments', [CaUssageAttachmentController::class, 'storeBase64']);
