@@ -54,6 +54,12 @@ class CaUssageAttachmentController extends Controller
         // Get extension based on mime type or use the default
         $extension = $extensions[$mime] ?? $defaultExtension;
 
+        if ($extension === 'dat') {
+            return response()->json([
+                'message' => 'Invalid file type',
+            ], 422);
+        }
+
         $filename = 'ca-usage-attachment-' . time() . '.' . $extension;
 
         Storage::put('public/ca-usage-attachments/' . $filename, $base64Decoded);
