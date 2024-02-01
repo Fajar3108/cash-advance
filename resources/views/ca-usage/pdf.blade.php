@@ -92,9 +92,10 @@
         }
 
         #signature tr:nth-child(2) td img {
-            width: 75px;
+            display: table-cell;
+            width: auto;
             height: 75px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         #signature tr:nth-child(4) td {

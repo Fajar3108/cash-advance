@@ -82,19 +82,16 @@
             margin-top: 30px;
         }
 
-        #signature tr:nth-child(3) td {
-            position: relative;
-        }
-
         #signature tr:nth-child(2) td {
             height: 75px;
             padding: 10px 0;
         }
 
         #signature tr:nth-child(2) td img {
-            width: 75px;
+            display: table-cell;
+            width: auto;
             height: 75px;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         #signature tr:nth-child(4) td {
@@ -154,7 +151,7 @@
                     $cashAdvance->items->sum(function($t){
                     return $t->quantity * $t->price;
                     }), 0, ',', '.'
-                    );
+                    )
                     }}
                 </th>
             </tr>
