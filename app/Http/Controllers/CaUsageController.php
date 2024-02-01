@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\StatusConstant;
 use App\Http\Requests\CaUsageRequest;
 use App\Models\CashAdvance;
 use App\Models\CaUsage;
@@ -58,12 +59,8 @@ class CaUsageController extends Controller
         DB::transaction(function () use ($request) {
             $data = $request->validated();
             $data['user_id'] = auth()->id();
-
-            if ($request->is_user_signature_showed) {
-                $data['is_user_signature_showed'] = true;
-            } else {
-                $data['is_user_signature_showed'] = false;
-            }
+            $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+            $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
             $caUsage = CaUsage::create($data);
 
@@ -97,6 +94,8 @@ class CaUsageController extends Controller
 
     public function edit(CaUsage $caUsage): View
     {
+        $this->authorize('update', $caUsage);
+
         $cashAdvances = CashAdvance::orderBy('date', 'DESC');
 
         if (auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
@@ -110,18 +109,12 @@ class CaUsageController extends Controller
 
     public function update(CaUsageRequest $request, CaUsage $caUsage)
     {
-        if ($caUsage->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('ca-usages.index');
-        }
+        $this->authorize('update', $caUsage);
 
         $data = $request->validated();
-
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
+        $data['user_id'] = auth()->id();
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
         $caUsage->update($data);
 
@@ -132,10 +125,7 @@ class CaUsageController extends Controller
 
     public function destroy(CaUsage $caUsage)
     {
-        if ($caUsage->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot delete approved cash advance');
-            return redirect()->route('ca-usages.index');
-        }
+        $this->authorize('update', $caUsage);
 
         $caUsage->delete();
 
@@ -147,7 +137,7 @@ class CaUsageController extends Controller
     public function approve(CaUsage $caUsage): RedirectResponse
     {
         $caUsage->update([
-            'is_approved' => true,
+            'status' => StatusConstant::APPROVED,
             'admin_id' => auth()->id(),
             'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
         ]);

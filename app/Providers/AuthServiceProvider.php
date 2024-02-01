@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\CashAdvance;
+use App\Models\CaUsage;
 use App\Policies\CashAdvancePolicy;
+use App\Policies\CaUsagePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -15,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         CashAdvance::class => CashAdvancePolicy::class,
+        CaUsage::class => CaUsagePolicy::class,
     ];
 
     /**

@@ -228,13 +228,13 @@
             </td>
             <td>
                 <span style="border-bottom: 1px solid #000; padding: 0 10px;">
-                    {{ $caUsage->admin->name }}
+                    {{ $caUsage->admin->name ?? '....................' }}
                 </span>
             </td>
         </tr>
         <tr>
             <td>{{ $caUsage->user->department }}</td>
-            <td>{{ $caUsage->admin->department }}</td>
+            <td>{{ $caUsage->admin->department ?? '....................' }}</td>
         </tr>
     </table>
 </body>

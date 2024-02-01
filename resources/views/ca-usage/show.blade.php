@@ -17,6 +17,8 @@
         <p class="font-bold">Status</p>
         @if ($caUsage->is_approved)
         <p class="text-green-600 font-bold">Accepted</p>
+        @elseif($caUsage->is_draft)
+        <p class="text-red-600 font-bold">Draft</p>
         @else
         <p class="text-yellow-400 font-bold">Pending</p>
         @endif

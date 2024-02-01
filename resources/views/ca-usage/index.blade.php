@@ -92,7 +92,7 @@
                     </td>
 
                     <td class="px-6 py-4">
-                        @if (!$caUsage->is_approved && auth()->user()->role_id ==
+                        @if ($caUsage->is_pending && auth()->user()->role_id ==
                         Database\Seeders\RoleSeeder::ADMIN_ID)
                         <button data-modal-target="approve-modal-{{ $caUsage->id }}"
                             data-modal-toggle="approve-modal-{{ $caUsage->id }}" type="button"
@@ -164,10 +164,12 @@
                                 </div>
                             </div>
                         </div>
-                        @elseif (!$caUsage->is_approved)
-                        <p class="text-yellow-400 font-bold">Pending</p>
+                        @elseif ($caUsage->is_approved)
+                            <p class="text-green-600 font-bold">Approved</p>
+                        @elseif ($caUsage->is_pending)
+                            <p class="text-yellow-400 font-bold">Pending</p>
                         @else
-                        <p class="text-green-600 font-bold">Approved</p>
+                            <p class="text-red-400 font-bold">Draft</p>
                         @endif
                     </td>
                     <td class="px-6 py-4">
@@ -292,8 +294,21 @@
                                         Lampiran
                                     </a>
                                 </li>
-                                @if (!$caUsage->is_approved || auth()->user()->role_id ==
-                                Database\Seeders\RoleSeeder::ADMIN_ID)
+                                @can('printPdf', $caUsage)
+                                    <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                        <a href="{{ route('ca-usages.pdf', $caUsage->id) }}" target="_blank" type="button"
+                                           class="p-3 flex gap-3 items-center">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none" viewBox="0 0 16 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
+                                            </svg>
+                                            Print PDF
+                                        </a>
+                                    </li>
+                                @endif
+                                @can('update', $caUsage)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     <a href="{{ route('ca-usages.edit', $caUsage->id) }}" type="button"
                                         class="p-3 flex gap-3 items-center">
@@ -306,26 +321,7 @@
                                         Edit
                                     </a>
                                 </li>
-                                @endif
-                                @if ($caUsage->is_approved)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('ca-usages.pdf', $caUsage->id) }}" target="_blank" type="button"
-                                        class="p-3 flex gap-3 items-center">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 16 20">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z" />
-                                        </svg>
-                                        Print PDF
-                                    </a>
-                                </li>
-                                @endif
-                                <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    @if (
-                                    !$caUsage->is_approved
-                                    || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
-                                    )
                                     <form action="{{ route('ca-usages.destroy', $caUsage->id) }}" method="POST"
                                         data-confirmation="true">
                                         @method('DELETE')
@@ -340,8 +336,8 @@
                                             Delete
                                         </button>
                                     </form>
-                                    @endif
                                 </li>
+                                @endcan
                             </ul>
                             <div data-popper-arrow></div>
                         </div>
