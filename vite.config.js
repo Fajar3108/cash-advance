@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/manage-ca-usage-item.js',
                 'resources/js/manage-reimbursement-item.js',
                 'resources/js/manage-stuff-item.js',
+                'resources/js/save-draft.js',
             ],
             refresh: true,
         }),

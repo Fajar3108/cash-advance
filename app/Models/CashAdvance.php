@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Constants\StatusConstant;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +17,34 @@ class CashAdvance extends Model
     protected $fillable = [
         'name',
         'date',
-        'is_approved',
+        'status',
         'user_id',
         'admin_id',
         'is_user_signature_showed',
         'is_admin_signature_showed',
         'note',
     ];
+
+    public function isApproved(): Attribute
+    {
+        return Attribute::make(
+          get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::APPROVED,
+        );
+    }
+
+    public function isDraft(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::DRAFT,
+        );
+    }
+
+    public function isPending(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::PENDING,
+        );
+    }
 
     public function items(): HasMany
     {

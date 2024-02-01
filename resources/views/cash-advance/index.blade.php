@@ -91,8 +91,8 @@
                         {{ $cashAdvance->user->name }}
                     </td>
                     <td class="px-6 py-4">
-                        @if (!$cashAdvance->is_approved && auth()->user()->role_id ==
-                        Database\Seeders\RoleSeeder::ADMIN_ID)
+                        @if (!$cashAdvance->isApproved && auth()->user()->role_id ==
+                        Database\Seeders\RoleSeeder::ADMIN_ID && !$cashAdvance->isDraft)
                         <button data-modal-target="approve-modal-{{ $cashAdvance->id }}"
                             data-modal-toggle="approve-modal-{{ $cashAdvance->id }}" type="button"
                             class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center gap-2">
@@ -165,10 +165,12 @@
                                 </div>
                             </div>
                         </div>
-                        @elseif (!$cashAdvance->is_approved)
-                        <p class="text-yellow-400 font-bold">Pending</p>
+                        @elseif ($cashAdvance->isPending)
+                            <p class="text-yellow-400 font-bold">Pending</p>
+                        @elseif ($cashAdvance->isDraft)
+                            <p class="text-red-400 font-bold">Draft</p>
                         @else
-                        <p class="text-green-600 font-bold">Approved</p>
+                            <p class="text-green-600 font-bold">Approved</p>
                         @endif
                     </td>
                     <td class="px-6 py-4">
@@ -293,22 +295,7 @@
                                         Lampiran
                                     </a>
                                 </li>
-                                @if (!$cashAdvance->is_approved || auth()->user()->role_id ==
-                                Database\Seeders\RoleSeeder::ADMIN_ID)
-                                <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
-                                        class="p-3 flex gap-3 items-center">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 21 21">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
-                                        </svg>
-                                        Edit
-                                    </a>
-                                </li>
-                                @endif
-                                @if ($cashAdvance->is_approved)
+                                @can('printPdf', $cashAdvance)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     <a href="{{ route('cash-advances.pdf', $cashAdvance->id) }}" target="_blank"
                                         type="button" class="p-3 flex gap-3 items-center">
@@ -321,12 +308,21 @@
                                         Print PDF
                                     </a>
                                 </li>
-                                @endif
+                                @endcan
+                                @can('update', $cashAdvance)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    @if (
-                                    !$cashAdvance->is_approved
-                                    || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
-                                    )
+                                    <a href="{{ route('cash-advances.edit', $cashAdvance->id) }}" type="button"
+                                       class="p-3 flex gap-3 items-center">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                             fill="none" viewBox="0 0 21 21">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                  stroke-width="2"
+                                                  d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
+                                        </svg>
+                                        Edit
+                                    </a>
+                                </li>
+                                <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     <form action="{{ route('cash-advances.destroy', $cashAdvance->id) }}" method="POST"
                                         data-confirmation="true">
                                         @method('DELETE')
@@ -341,8 +337,8 @@
                                             Delete
                                         </button>
                                     </form>
-                                    @endif
                                 </li>
+                                @endcan
                             </ul>
                             <div data-popper-arrow></div>
                         </div>

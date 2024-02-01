@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\StatusConstant;
 use App\Http\Requests\CashAdvanceRequest;
 use App\Models\CashAdvance;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -50,12 +51,8 @@ class CashAdvanceController extends Controller
         DB::transaction(function () use ($request) {
             $data = $request->validated();
             $data['user_id'] = auth()->id();
-
-            if ($request->is_user_signature_showed) {
-                $data['is_user_signature_showed'] = true;
-            } else {
-                $data['is_user_signature_showed'] = false;
-            }
+            $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+            $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
             $cashAdvance = CashAdvance::create($data);
 
@@ -88,28 +85,18 @@ class CashAdvanceController extends Controller
 
     public function edit(CashAdvance $cashAdvance)
     {
-        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('cash-advances.index');
-        }
+        $this->authorize('update', $cashAdvance);
 
         return view('cash-advance.edit', compact('cashAdvance'));
     }
 
     public function update(CashAdvanceRequest $request, CashAdvance $cashAdvance)
     {
-        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved cash advance');
-            return redirect()->route('cash-advances.index');
-        }
+        $this->authorize('update', $cashAdvance);
 
         $data = $request->validated();
-
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
         $cashAdvance->update($data);
 
@@ -120,10 +107,7 @@ class CashAdvanceController extends Controller
 
     public function destroy(CashAdvance $cashAdvance): RedirectResponse
     {
-        if ($cashAdvance->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot delete approved cash advance');
-            return redirect()->route('cash-advances.index');
-        }
+        $this->authorize('update', $cashAdvance);
 
         DB::transaction(function () use ($cashAdvance) {
             $cashAdvance->items()->delete();
@@ -138,7 +122,7 @@ class CashAdvanceController extends Controller
     public function approve(CashAdvance $cashAdvance): RedirectResponse
     {
         $cashAdvance->update([
-            'is_approved' => true,
+            'status' => StatusConstant::APPROVED,
             'admin_id' => auth()->id(),
             'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
         ]);

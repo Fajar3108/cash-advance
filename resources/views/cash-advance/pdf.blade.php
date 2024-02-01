@@ -185,7 +185,7 @@
             </td>
             <td>
                 <span style="border-bottom: 1px solid #000; padding: 0 10px;">
-                    {{ $cashAdvance->admin->name }}
+                    {{ $cashAdvance->admin->name ?? '....................' }}
                 </span>
             </td>
             <td>
@@ -196,7 +196,7 @@
         </tr>
         <tr>
             <td>{{ $cashAdvance->user->department }}</td>
-            <td>{{ $cashAdvance->admin->department }}</td>
+            <td>{{ $cashAdvance->admin->department ?? '....................' }}</td>
             <td>Direktur</td>
         </tr>
     </table>
