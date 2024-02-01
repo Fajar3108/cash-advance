@@ -24,6 +24,7 @@ class ReimbursementRequest extends FormRequest
         return [
             'date' => ['required', 'date'],
             'is_user_signature_showed' => ['nullable', 'in:on'],
+            'is_draft' => ['nullable', 'boolean'],
         ];
     }
 }

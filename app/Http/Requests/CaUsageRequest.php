@@ -26,6 +26,7 @@ class CaUsageRequest extends FormRequest
             'name' => ['required', 'string'],
             'date' => ['required', 'date'],
             'is_user_signature_showed' => ['nullable', 'in:on'],
+            'is_draft' => ['nullable', 'boolean'],
         ];
     }
 }

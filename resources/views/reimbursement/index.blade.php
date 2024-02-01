@@ -78,7 +78,7 @@
                         {{ $reimbursement->user->name }}
                     </td>
                     <td class="px-6 py-4">
-                        @if (!$reimbursement->is_approved && auth()->user()->role_id ==
+                        @if ($reimbursement->is_pending && auth()->user()->role_id ==
                         Database\Seeders\RoleSeeder::ADMIN_ID)
                         <button data-modal-target="approve-modal-{{ $reimbursement->id }}"
                             data-modal-toggle="approve-modal-{{ $reimbursement->id }}" type="button"
@@ -152,10 +152,12 @@
                                 </div>
                             </div>
                         </div>
-                        @elseif (!$reimbursement->is_approved)
-                        <p class="text-yellow-400 font-bold">Pending</p>
+                        @elseif ($reimbursement->is_approved)
+                            <p class="text-green-600 font-bold">Approved</p>
+                        @elseif ($reimbursement->is_pending)
+                            <p class="text-yellow-400 font-bold">Pending</p>
                         @else
-                        <p class="text-green-600 font-bold">Approved</p>
+                            <p class="text-red-600 font-bold">Draft</p>
                         @endif
                     </td>
                     <td class="px-6 py-4">
@@ -281,21 +283,6 @@
                                         Lampiran
                                     </a>
                                 </li>
-                                @if (!$reimbursement->is_approved || auth()->user()->role_id ==
-                                Database\Seeders\RoleSeeder::ADMIN_ID)
-                                <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    <a href="{{ route('reimbursements.edit', $reimbursement->id) }}" type="button"
-                                        class="p-3 flex gap-3 items-center">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 21 21">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
-                                        </svg>
-                                        Edit
-                                    </a>
-                                </li>
-                                @endif
                                 @if ($reimbursement->is_approved)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     <a href="{{ route('reimbursements.pdf', $reimbursement->id) }}" target="_blank"
@@ -310,11 +297,20 @@
                                     </a>
                                 </li>
                                 @endif
+                                @can('update', $reimbursement)
+                                    <li class="hover:bg-[rgba(0,0,0,.2)]">
+                                        <a href="{{ route('reimbursements.edit', $reimbursement->id) }}" type="button"
+                                           class="p-3 flex gap-3 items-center">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none" viewBox="0 0 21 21">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279" />
+                                            </svg>
+                                            Edit
+                                        </a>
+                                    </li>
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
-                                    @if (
-                                    !$reimbursement->is_approved
-                                    || auth()->user()->role_id == Database\Seeders\RoleSeeder::ADMIN_ID
-                                    )
                                     <form action="{{ route('reimbursements.destroy', $reimbursement->id) }}"
                                         method="POST" data-confirmation="true">
                                         @method('DELETE')
@@ -329,8 +325,8 @@
                                             Delete
                                         </button>
                                     </form>
-                                    @endif
                                 </li>
+                                @endcan
                             </ul>
                             <div data-popper-arrow></div>
                         </div>

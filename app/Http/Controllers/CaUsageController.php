@@ -112,7 +112,6 @@ class CaUsageController extends Controller
         $this->authorize('update', $caUsage);
 
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
         $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
         $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 

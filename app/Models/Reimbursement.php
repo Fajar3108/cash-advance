@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\StatusConstant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -19,7 +20,7 @@ class Reimbursement extends Model
         'admin_id',
         'date',
         'note',
-        'is_approved',
+        'status',
         'is_user_signature_showed',
         'is_admin_signature_showed',
     ];
@@ -29,6 +30,27 @@ class Reimbursement extends Model
         'is_user_signature_showed' => 'boolean',
         'is_admin_signature_showed' => 'boolean',
     ];
+
+    public function isApproved(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::APPROVED,
+        );
+    }
+
+    public function isDraft(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::DRAFT,
+        );
+    }
+
+    public function isPending(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attribute) => $attribute['status'] === StatusConstant::PENDING,
+        );
+    }
 
     public function code(): Attribute
     {

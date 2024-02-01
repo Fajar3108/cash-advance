@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\StatusConstant;
 use App\Http\Requests\ReimbursementRequest;
 use App\Models\Reimbursement;
 use App\Models\ReimbursementItem;
@@ -54,14 +55,9 @@ class ReimbursementController extends Controller
         }
 
         $data = $request->validated();
-
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
-
         $data['user_id'] = auth()->id();
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
         $items = json_decode($request->items);
 
@@ -91,28 +87,18 @@ class ReimbursementController extends Controller
 
     public function edit(Reimbursement $reimbursement): View
     {
-        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved reimbursement');
-            return redirect()->route('reimbursements.index');
-        }
+        $this->authorize('update', $reimbursement);
 
         return view('reimbursement.edit', compact('reimbursement'));
     }
 
     public function update(ReimbursementRequest $request, Reimbursement $reimbursement): RedirectResponse
     {
-        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot edit approved reimbursement');
-            return redirect()->route('reimbursements.index');
-        }
+        $this->authorize('update', $reimbursement);
 
         $data = $request->validated();
-
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
         $reimbursement->update($data);
 
@@ -123,10 +109,7 @@ class ReimbursementController extends Controller
 
     public function destroy(Reimbursement $reimbursement): RedirectResponse
     {
-        if ($reimbursement->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot delete approved reimbursement');
-            return redirect()->route('reimbursements.index');
-        }
+        $this->authorize('update', $reimbursement);
 
         $reimbursement->delete();
 
@@ -138,7 +121,7 @@ class ReimbursementController extends Controller
     public function approve(Reimbursement $reimbursement): RedirectResponse
     {
         $reimbursement->update([
-            'is_approved' => true,
+            'status' => StatusConstant::APPROVED,
             'admin_id' => auth()->id(),
             'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
         ]);

@@ -186,7 +186,7 @@
             <td></td>
             <td>
                 <span style="border-bottom: 1px solid #000; padding: 0 10px;">
-                    {{ $reimbursement->admin->name }}
+                    {{ $reimbursement->admin->name ?? '....................' }}
                 </span>
             </td>
         </tr>
@@ -197,7 +197,7 @@
                     Keuangan
                 </span>
             </td>
-            <td>{{ $reimbursement->admin->department }}</td>
+            <td>{{ $reimbursement->admin->department ?? '....................' }}</td>
         </tr>
     </table>
 </body>
