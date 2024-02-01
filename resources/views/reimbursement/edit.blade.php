@@ -8,10 +8,12 @@
     <div class="relative overflow-x-auto px-2">
         <div class="flex items-center gap-1 justify-end mt-3">
             <a href="{{ route('reimbursements.index') }}" class="text-blue-600 px-4">Cancel</a>
+            @if ($reimbursement->is_draft)
             <button type="button" id="save-draft"
             class="border border-gray-700 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
             Save Draft
             </button>
+            @endif
             <button type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
         </div>
@@ -46,4 +48,5 @@
 
 @section('scripts')
 @vite('resources/js/manage-item.js')
+@vite('resources/js/save-draft.js')
 @endsection
