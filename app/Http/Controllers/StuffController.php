@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\StatusConstant;
 use App\Http\Requests\StuffRequest;
 use App\Models\Stuff;
 use App\Models\StuffItem;
@@ -49,14 +50,10 @@ class StuffController extends Controller
         }
 
         $data = $request->validated();
-
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
-
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
         $data['user_id'] = auth()->id();
+
         $items = json_decode($request->items);
 
         DB::transaction(function () use ($data, $items) {
@@ -86,18 +83,18 @@ class StuffController extends Controller
 
     public function edit(Stuff $stuff): View
     {
+        $this->authorize('update', $stuff);
+
         return view('stuff.edit', compact('stuff'));
     }
 
     public function update(StuffRequest $request, Stuff $stuff)
     {
-        $data = $request->validated();
+        $this->authorize('update', $stuff);
 
-        if ($request->is_user_signature_showed) {
-            $data['is_user_signature_showed'] = true;
-        } else {
-            $data['is_user_signature_showed'] = false;
-        }
+        $data = $request->validated();
+        $data['is_user_signature_showed'] = $request->is_user_signature_showed ? true : false;
+        $data['status'] = $request->is_draft ? StatusConstant::DRAFT : StatusConstant::PENDING;
 
         $stuff->update($data);
 
@@ -108,10 +105,7 @@ class StuffController extends Controller
 
     public function destroy(Stuff $stuff)
     {
-        if ($stuff->is_approved && auth()->user()->role_id !== RoleSeeder::ADMIN_ID) {
-            Alert::error('Error', 'You cannot delete approved stuff');
-            return redirect()->route('stuffs.index');
-        }
+        $this->authorize('update', $stuff);
 
         $stuff->delete();
 
@@ -123,7 +117,7 @@ class StuffController extends Controller
     public function approve(Stuff $stuff)
     {
         $stuff->update([
-            'is_approved' => true,
+            'status' => StatusConstant::APPROVED,
             'admin_id' => auth()->id(),
             'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
         ]);

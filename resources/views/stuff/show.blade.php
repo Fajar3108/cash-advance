@@ -13,6 +13,8 @@
         <p class="font-bold pr-3">Status</p>
         @if ($stuff->is_approved)
         <p class="text-green-600 font-bold">Accepted</p>
+        @elseif ($stuff->is_draft)
+        <p class="text-red-600 font-bold">Draft</p>
         @else
         <p class="text-yellow-400 font-bold">Pending</p>
         @endif

@@ -283,7 +283,7 @@
                                         Lampiran
                                     </a>
                                 </li>
-                                @if ($reimbursement->is_approved)
+                                @can('printPdf', $reimbursement)
                                 <li class="hover:bg-[rgba(0,0,0,.2)]">
                                     <a href="{{ route('reimbursements.pdf', $reimbursement->id) }}" target="_blank"
                                         type="button" class="p-3 flex gap-3 items-center">
@@ -296,7 +296,7 @@
                                         Print PDF
                                     </a>
                                 </li>
-                                @endif
+                                @endcan
                                 @can('update', $reimbursement)
                                     <li class="hover:bg-[rgba(0,0,0,.2)]">
                                         <a href="{{ route('reimbursements.edit', $reimbursement->id) }}" type="button"

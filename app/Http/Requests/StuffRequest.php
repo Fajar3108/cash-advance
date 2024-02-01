@@ -25,6 +25,7 @@ class StuffRequest extends FormRequest
             'date' => ['required', 'date'],
             'description' => ['nullable', 'string'],
             'is_user_signature_showed' => ['nullable', 'in:on'],
+            'is_draft' => ['nullable', 'boolean'],
         ];
     }
 }
