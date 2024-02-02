@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CaUsageController extends Controller
@@ -140,6 +141,11 @@ class CaUsageController extends Controller
             'admin_id' => auth()->id(),
             'is_admin_signature_showed' => request()->is_admin_signature_showed ? true : false,
         ]);
+
+        // WA BLAST FOR MAS ANDRE (ASMEN)
+        if ($caUsage->user_id === '9b2c771f-fbdc-409e-8259-49d084c7d1c5') {
+            Http::get('https://ca.hanatekindo.com/storage/upload-ca/wa.php?wa=6281315559784');
+        }
 
         Alert::success('Success', 'Approved successfully');
 
