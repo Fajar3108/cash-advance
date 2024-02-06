@@ -201,7 +201,7 @@
             </td>
             <td>
                 <span style="border-bottom: 1px solid #000; padding: 0 20px;">
-                    Ranap Irwar R.
+                    Ranap Irwan Rajaguguk
                 </span>
             </td>
         </tr>
