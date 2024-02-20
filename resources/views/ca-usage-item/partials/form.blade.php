@@ -2,7 +2,7 @@
 $values = [
 'note' => '',
 'quantity' => 0,
-'amount' => 0,
+'amount' => '',
 'type' => 'debit',
 'date' => now()->format('Y-m-d')
 ];
@@ -36,9 +36,10 @@ $values = [
             </select>
         </div>
         <div class="w-full">
-            <input type="number" id="amount" name="amount"
+            <input type="text" id="amount-currency" data-format="currency" data-target="amount"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required
                 value="{{ old('amount') ?? $values['amount'] }}">
+            <input type="hidden" id="amount" name="amount" value="{{ old('amount') ?? $values['amount'] }}">
             @error('amount')
             <small class="text-red-600">{{ $message }}</small>
             @enderror

@@ -15,6 +15,7 @@
     @yield('content')
 
     @vite('resources/js/app.js')
+    @vite('resources/js/currency-formatter.js')
 
     @yield('scripts')
 </body>

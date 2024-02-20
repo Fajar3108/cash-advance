@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/manage-reimbursement-item.js',
                 'resources/js/manage-stuff-item.js',
                 'resources/js/save-draft.js',
+                'resources/js/currency-formatter.js',
             ],
             refresh: true,
         }),

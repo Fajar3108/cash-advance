@@ -36,6 +36,7 @@ addItemButton.addEventListener('click', () => {
     priceInput.value = '';
     dateInput.value = (new Date()).toISOString().slice(0, 10);
     noteInput.value = '';
+    document.getElementById('price-currency').value = '';
 
     renderItems();
 });

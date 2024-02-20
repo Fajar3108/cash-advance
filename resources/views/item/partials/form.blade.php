@@ -2,7 +2,7 @@
 $values = [
 'note' => '',
 'quantity' => 0,
-'price' => 0,
+'price' => '',
 ];
 
 if (isset($item)) {
@@ -49,10 +49,11 @@ $values = [
     @enderror
 </div>
 <div class="mb-5">
-    <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
-    <input type="number" id="price" name="price"
+    <label for="price-currency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga</label>
+    <input type="text" id="price-currency" name="price-currency" data-format="currency" data-target="price"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" required
         value="{{ old('price') ?? $values['price'] }}">
+    <input type="hidden" id="price" name="price" value="{{ old('price') ?? $values['price'] }}">
     @error('price')
     <small class="text-red-600">{{ $message }}</small>
     @enderror
