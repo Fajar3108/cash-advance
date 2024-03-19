@@ -135,7 +135,7 @@
         <thead>
             <tr>
                 <th>NO</th>
-                <th>TGL</th>
+                <th style="width: 100px;">TGL</th>
                 <th>Keterangan</th>
                 <th>D</th>
                 <th>K</th>
