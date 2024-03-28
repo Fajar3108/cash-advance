@@ -136,7 +136,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($reimbursement->items as $item)
+            @foreach ($reimbursement->items()->orderByRaw("CONCAT(date, created_at)")->get() as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}
                 </td>

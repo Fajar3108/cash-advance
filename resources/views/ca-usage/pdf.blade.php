@@ -143,7 +143,7 @@
         </thead>
         <tbody>
             @php
-            $items = $caUsage->items->sortBy('date');
+            $items = $caUsage->items()->orderByRaw("CONCAT(date, created_at)")->get();
             @endphp
             @foreach ($items->where('type', 'credit') as $item)
             <tr>

@@ -59,14 +59,15 @@ class CashAdvanceController extends Controller
             $items = json_decode($request->items);
 
             for ($i = 0; $i < count($items); $i++) {
+                $timestamps = now()->addSeconds($i * 3);
                 $items[$i] = [
                     'id' => str()->uuid(),
                     'note' => $items[$i]->note,
                     'price' => $items[$i]->price,
                     'quantity' => $items[$i]->quantity,
                     'cash_advance_id' => $cashAdvance->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $timestamps,
+                    'updated_at' => $timestamps,
                 ];
             }
 

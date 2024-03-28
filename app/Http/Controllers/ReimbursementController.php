@@ -18,7 +18,7 @@ class ReimbursementController extends Controller
 {
     public function index(): View
     {
-        $reimbursements = Reimbursement::with('user', 'admin');
+        $reimbursements = Reimbursement::with('user', 'admin')->orderBy('date', 'DESC');
 
         if (request()->has('q')) {
             $reimbursements = $reimbursements->whereHas('user', function ($query) {
@@ -65,14 +65,15 @@ class ReimbursementController extends Controller
             $reimbursement = Reimbursement::create($data);
 
             for ($i = 0; $i < count($items); $i++) {
+                $timestamps = now()->addSeconds($i * 3);
                 $items[$i] = [
                     'id' => str()->uuid(),
                     'note' => $items[$i]->note,
                     'price' => $items[$i]->price,
                     'date' => $items[$i]->date,
                     'reimbursement_id' => $reimbursement->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $timestamps,
+                    'updated_at' => $timestamps,
                 ];
             }
 

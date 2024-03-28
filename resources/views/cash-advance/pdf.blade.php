@@ -132,7 +132,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($cashAdvance->items as $item)
+            @foreach ($cashAdvance->items()->orderBy('created_at')->get() as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{!! nl2br($item->note) !!}</td>

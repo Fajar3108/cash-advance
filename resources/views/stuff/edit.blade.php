@@ -34,7 +34,7 @@
         Tambah
     </a>
 </div>
-@include('stuff-item.partials.table', ['items' => $stuff->items])
+@include('stuff-item.partials.table', ['items' => $stuff->items()->orderBy('created_at')->get()])
 @endsection
 
 @section('scripts')

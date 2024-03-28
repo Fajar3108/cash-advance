@@ -35,11 +35,11 @@
             Tambah
         </a>
     </div>
-    @include('reimbursement-item.partials.table', ['items' => $reimbursement->items])
+    @include('reimbursement-item.partials.table', ['items' => $reimbursement->items()->orderByRaw("CONCAT(date, created_at)")->get()])
     <div class="w-full flex justify-end py-4">
         <p class="font-bold">
             Total: Rp{{
-            number_format($reimbursement->items->sum('price'), 0, ',', '.');
+            number_format($reimbursement->items->sum('price'), 0, ',', '.')
             }}
         </p>
     </div>

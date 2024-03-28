@@ -60,6 +60,7 @@ class StuffController extends Controller
             $stuff = Stuff::create($data);
 
             for ($i = 0; $i < count($items); $i++) {
+                $timestamps = now()->addSeconds($i * 3);
                 $items[$i] = [
                     'id' => str()->uuid(),
                     'note' => $items[$i]->note,
@@ -67,8 +68,8 @@ class StuffController extends Controller
                     'quantity' => $items[$i]->quantity,
                     'price' => $items[$i]->price,
                     'stuff_id' => $stuff->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $timestamps,
+                    'updated_at' => $timestamps,
                 ];
             }
 

@@ -35,7 +35,7 @@
             Tambah
         </a>
     </div>
-    @include('ca-usage-item.partials.table', ['items' => $caUsage->items()->orderBy('date', 'asc')->get()])
+    @include('ca-usage-item.partials.table', ['items' => $caUsage->items()->orderByRaw("CONCAT(date, created_at)")->get()])
 </div>
 @endsection
 

@@ -68,6 +68,7 @@ class CaUsageController extends Controller
             $items = json_decode($request->items);
 
             for ($i = 0; $i < count($items); $i++) {
+                $timestamps = now()->addSeconds($i * 3);
                 $items[$i] = [
                     'id' => str()->uuid(),
                     'ca_usage_id' => $caUsage->id,
@@ -75,8 +76,8 @@ class CaUsageController extends Controller
                     'amount' => $items[$i]->amount,
                     'type' => $items[$i]->type,
                     'date' => $items[$i]->date,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $timestamps,
+                    'updated_at' => $timestamps,
                 ];
             }
 

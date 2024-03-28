@@ -72,7 +72,7 @@
 
 <div class="relative overflow-x-auto px-2 mt-5">
     <h2 class="text-lg font-bold mb-3">Items</h2>
-    @include('item.partials.table', ['items' => $cashAdvance->items])
+    @include('item.partials.table', ['items' => $cashAdvance->items()->orderBy('created_at')->get()])
     <div class="w-full flex justify-end py-4">
         <p class="font-bold">
             Total: Rp{{
@@ -80,7 +80,7 @@
             $cashAdvance->items->sum(function($t){
             return $t->quantity * $t->price;
             }), 0, ',', '.'
-            );
+            )
             }}
         </p>
     </div>

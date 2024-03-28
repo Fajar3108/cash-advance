@@ -140,7 +140,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($stuff->items as $item)
+            @foreach ($stuff->items()->orderBy('created_at')->get() as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $item->name }}</td>
